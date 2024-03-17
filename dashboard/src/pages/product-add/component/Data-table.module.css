@@ -1,0 +1,17 @@
+.Container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  /* background-color: green; */
+}
+
+.Table {
+  width: 100%;
+  height: 80vh;
+  background-color: red;
+  display: flex;
+}
+.Header {
+  width: 100px;
+}
