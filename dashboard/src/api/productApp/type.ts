@@ -1,25 +1,3 @@
-// export interface AddProductPayload {
-//   meta: Meta;
-//   body: Body;
-// }
-
-// export interface Body {
-//   addProductData: AddProductData[];
-// }
-
-// export interface AddProductData {
-//   name: string;
-//   amount: number;
-//   image: string;
-//   date: Date;
-//   // filename: string;
-// }
-
-// export interface Meta {
-//   success: boolean;
-//   message: string;
-// }
-
 export interface AddProductPayload {
   meta: Meta;
   body: Body;
@@ -30,14 +8,10 @@ export interface Body {
 }
 
 export interface ProductAll {
-  image: {
-    path: File | null;
-  };
-  _id: string;
+  image: Image;
   name: string;
   amount: number;
   date: Date;
-  __v: number;
 }
 
 export interface Image {

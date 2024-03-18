@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useAddProduct } from "@/api/productApp/mutation";
 import {
   Form,
   FormControl,
@@ -21,9 +20,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import classes from "./add-product.module.css";
+// import useImageUpload from "@/pages/hook/use-image";
 
 const formSchema = z.object({
-  id: z.string(),
+  // id: z.string(),
   name: z.string(),
   image: z.string(),
   amount: z.number(),
@@ -31,11 +31,13 @@ const formSchema = z.object({
 });
 
 const AddProduct = () => {
+  // const { file, previewUrl, error, upload, handlFileChange, handleUpload } =
+  //   useImageUpload();
   const [open, setOpen] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      id: "",
+      // id: "",
       name: "",
       image: "",
       amount: 0,
@@ -67,7 +69,7 @@ const AddProduct = () => {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="grid gap-4 py-2"
                 >
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="id"
                     render={({ field }) => (
@@ -83,7 +85,7 @@ const AddProduct = () => {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
 
                   <FormField
                     control={form.control}
@@ -109,8 +111,22 @@ const AddProduct = () => {
                       <FormItem>
                         <FormLabel>Image</FormLabel>
                         <FormControl>
-                          <Input placeholder="shadcn" {...field} />
+                          <Input
+                            type="file"
+                            // onChange={handlFileChange}
+                            {...field}
+                          />
+                          {/* {error && <FormMessage error>{error}</FormMessage>} */}
                         </FormControl>
+
+                        {/* <button
+                          type="button"
+                          onClick={() => handleUpload("your-upload-url")}
+                        >
+                          Upload
+                        </button>
+
+                        {upload > 0 && <p>Upload progress: {upload}%</p>} */}
                         <FormDescription>
                           This is your public display name.
                         </FormDescription>
