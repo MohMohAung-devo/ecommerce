@@ -87,9 +87,11 @@ const AddProduct = () => {
           // position={{ top: 30, right: 20 }}
         >
           <DialogTrigger asChild>
-            <h2>Add Product</h2>
+            <Button variant="outline" style={{ borderRadius: "5px" }}>
+              Create Product
+            </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="bg-white text-black">
             <DialogHeader>
               <DialogTitle>Add New Product</DialogTitle>
             </DialogHeader>
@@ -140,7 +142,7 @@ const AddProduct = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Image</FormLabel>
-                        <FormControl >
+                        <FormControl>
                           <Input
                             type="file"
                             {...fileRef}
@@ -209,7 +211,13 @@ const AddProduct = () => {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit">Submit</Button>
+                  <Button
+                    type="submit"
+                    variant="outline"
+                    className="bg-black text-white"
+                  >
+                    Submit
+                  </Button>
                 </form>
               </Form>
             </div>

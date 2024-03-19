@@ -10,5 +10,12 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  cursor: pointer;
 }
+
+/* .searchContainer {
+  display: flex;
+  width: 35%;
+  justify-content: space-between;
+  justify-items: center;
+  align-items: center;
+} */

@@ -5,6 +5,7 @@ import classes from "./ProductAdd.module.css";
 import AddProduct from "@/pages/product-add/component/add-product";
 import { Button } from "@/components/ui/button";
 import { useAllProduct } from "@/api/productApp/query";
+import SearchComponemt from "@/pages/page-component/ButtonComponent";
 
 export const ProductAdd = () => {
   const { data, isError } = useAllProduct();
@@ -22,8 +23,11 @@ export const ProductAdd = () => {
     <div className={classes.ProductContainer}>
       <div className={classes.titleContainer}>
         <div className={classes.Container}>
-          <h2>Create Product</h2>
-          <AddProduct />
+          <h2>Add Product</h2>
+          <div className={classes.searchContainer}>
+            {/* <SearchComponemt /> */}
+            <AddProduct />
+          </div>
         </div>
       </div>
       <DataTable columns={columns} data={data} />
