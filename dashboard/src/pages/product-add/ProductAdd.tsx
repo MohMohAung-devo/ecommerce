@@ -4,10 +4,10 @@ import { DataTable } from "@/pages/product-add/component/Data-table";
 import classes from "./ProductAdd.module.css";
 import AddProduct from "@/pages/product-add/component/add-product";
 import { Button } from "@/components/ui/button";
-import { useAddProduct } from "@/api/productApp/query";
+import { useAllProduct } from "@/api/productApp/query";
 
 export const ProductAdd = () => {
-  const { data, isError } = useAddProduct();
+  const { data, isError } = useAllProduct();
   console.log({ data });
 
   if (isError) {
@@ -22,7 +22,7 @@ export const ProductAdd = () => {
     <div className={classes.ProductContainer}>
       <div className={classes.titleContainer}>
         <div className={classes.Container}>
-          <h2>Add Product</h2>
+          <h2>Create Product</h2>
           <AddProduct />
         </div>
       </div>

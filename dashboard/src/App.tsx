@@ -7,7 +7,7 @@ import BuyProduct from "@/pages/buy-product/BuyProduct";
 import BuyUserList from "@/pages/buy-user-list/BuyUserList";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import Home from "@/Form";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -24,6 +24,8 @@ function App() {
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
+
+    // <Home />
   );
 }
 

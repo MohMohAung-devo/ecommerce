@@ -4,7 +4,7 @@ import axios from "axios";
 
 const URL = `http://localhost:3000`;
 
-export const AddProductFn = async (
+export const AllProductFn = async (
   payload: ProductAll
 ): Promise<AddProductPayload> => {
   const response = await axios.get(`${URL}/productAdd/all`, {
@@ -13,10 +13,10 @@ export const AddProductFn = async (
   return response.data;
 };
 
-export const useAddProduct = (payload: AddProductPayload) => {
+export const useAllProduct = (payload: AddProductPayload) => {
   return useQuery({
     queryKey: ["add-product", payload],
-    queryFn: () => AddProductFn(payload),
+    queryFn: () => AllProductFn(payload),
     select: (data: AddProductPayload) => {
       console.log({ data });
       const dataList = data.body.productAll;
@@ -27,7 +27,5 @@ export const useAddProduct = (payload: AddProductPayload) => {
         date: list.date,
       }));
     },
-
- 
   });
 };

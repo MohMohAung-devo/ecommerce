@@ -46,6 +46,15 @@ app.get("/", (req, res) => {
 
 app.post("/productApp", upload.single("image"), async (req, res) => {
   try {
+    console.log("Request body:", req.body);
+    console.log("Uploaded file:", req.file);
+
+    // Check if req.file is undefined
+    if (!req.file) {
+      return res.status(400).json({
+        meta: { success: false, message: "No file uploaded" },
+      });
+    }
     const { name, amount, date } = req.body;
     const image = {
       data: req.file.buffer,
