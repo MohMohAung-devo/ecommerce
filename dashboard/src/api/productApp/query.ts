@@ -23,6 +23,8 @@ export const useAllProduct = (payload: AddProductPayload) => {
       return dataList.map((list: ProductAll) => ({
         name: list.name,
         amount: list.amount,
+        price: list.price,
+        count: list.count,
         image: list.image.path,
         date: list.date,
       }));

@@ -29,7 +29,8 @@ app.use("/images", express.static("images"));
 const AddProductCreateSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   name: String,
-  amount: Number,
+  price: Number,
+  count: Number,
   image: {
     data: Buffer,
     contentType: String,
@@ -55,7 +56,7 @@ app.post("/productApp", upload.single("image"), async (req, res) => {
         meta: { success: false, message: "No file uploaded" },
       });
     }
-    const { name, amount, date } = req.body;
+    const { name, price, count, date } = req.body;
     const image = {
       data: req.file.buffer,
       contentType: req.file.mimetype,
@@ -68,7 +69,8 @@ app.post("/productApp", upload.single("image"), async (req, res) => {
     const AddProduct = new AddProductModel({
       _id: new mongoose.Types.ObjectId(),
       name,
-      amount,
+      price,
+      count,
       date,
       image,
     });
@@ -85,7 +87,8 @@ app.post("/productApp", upload.single("image"), async (req, res) => {
       meta: { success: true, message: "Add Product Create Successfully" },
       body: {
         name: AddProduct.name,
-        amount: AddProduct.amount,
+        price: AddProduct.price,
+        count: AddProduct.count,
         image: imagePath,
         date: AddProduct.date,
         filename: req.file.filename,

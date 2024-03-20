@@ -11,6 +11,8 @@ export interface ProductAll {
   image: Image;
   name: string;
   amount: number;
+  price: number;
+  count: number;
   date: Date;
 }
 

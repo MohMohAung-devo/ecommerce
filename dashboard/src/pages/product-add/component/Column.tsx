@@ -26,7 +26,7 @@ export const columns: ColumnDef<ProductAll>[] = [
     header: "Image",
 
     cell: ({ row }) => (
-      <div>
+      <div className="justify-items-center">
         {row.original.image ? (
           <div style={{ width: "150px" }}>
             <img
@@ -41,15 +41,43 @@ export const columns: ColumnDef<ProductAll>[] = [
       </div>
     ),
   },
+
+  {
+    accessorKey: "price",
+    header: () => <div>Price</div>,
+    cell: ({ row }) => (
+      <div className="text-justify">
+        {row.original.price} {""}Ks
+      </div>
+    ),
+  },
+
+  {
+    accessorKey: "count",
+    header: () => <div>Count</div>,
+    cell: ({ row }) => <div className="text-justify">{row.original.count}</div>,
+  },
   {
     accessorKey: "amount",
     header: () => <div>Amount</div>,
-    cell: ({ row }) => <div>{row.original.amount}Ks</div>,
+    cell: ({ row }) => (
+      <div className="text-justify">{row.original.amount}Ks</div>
+    ),
   },
   {
     accessorKey: "date",
     header: "Date",
-    cell: ({ row }) => <Button>{formatDate(row.date)}</Button>,
+    cell: ({ row }) => (
+      <div className="text-justif">
+        <Button
+          variant="outline"
+          className="bg-white text-black rounded-lg"
+          style={{ borderRadius: "10px" }}
+        >
+          {formatDate(row.date)}
+        </Button>
+      </div>
+    ),
   },
 
   {
