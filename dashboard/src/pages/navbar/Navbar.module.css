@@ -1,15 +1,20 @@
 .NavContainer {
   width: 100%;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6rem;
 }
 .Container {
   width: 100%;
-  height: 100%;
+  height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   justify-items: center;
   text-align: center;
-  gap: 1.5rem;
+  /* gap: 1rem; */
 }
 
 .Item {
@@ -43,4 +48,19 @@
 }
 .active .icon {
   color: black;
+}
+
+.LogoutButton {
+  bottom: 0;
+  width: 100%;
+  height: 30vh;
+
+  /* height: 1000px; */
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  justify-content: end;
+  align-items: end;
+
+  margin-top: 6rem;
 }

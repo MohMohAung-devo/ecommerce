@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import classes from "./Login.module.css";
+import { Link } from "react-router-dom";
 
 const formSchema = z.object({
   name: z.string(),
@@ -107,14 +108,16 @@ export const Login = () => {
                 )}
               />
 
-              <Button
-                type="submit"
-                variant="outline"
-                className="bg-black text-white rounded-md w-[100px]"
-                style={{ borderRadius: "10px" }}
-              >
-                Submit
-              </Button>
+              <Link to="/">
+                <Button
+                  type="submit"
+                  variant="outline"
+                  className="bg-black text-white rounded-md w-[100px]"
+                  style={{ borderRadius: "10px" }}
+                >
+                  Submit
+                </Button>
+              </Link>
             </form>
           </Form>
         </div>

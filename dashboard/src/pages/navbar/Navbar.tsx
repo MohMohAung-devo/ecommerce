@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import classes from "./Navbar.module.css";
 import { Link } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa6";
+import Logout from "@/pages/auth/logout/Logout";
 export const Navbar = () => {
   const [active, setActive] = useState(false);
   const menu = [
@@ -40,6 +41,9 @@ export const Navbar = () => {
             <FaAngleRight className={classes.icon} />
           </Link>
         ))}
+      </div>
+      <div className={classes.LogoutButton}>
+        <Logout />
       </div>
     </div>
   );

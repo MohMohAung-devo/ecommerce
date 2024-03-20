@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import classes from "./Register.module.css";
+import { Link } from "react-router-dom";
 
 // import {
 //   Select,
@@ -164,14 +165,16 @@ const Register = () => {
                   </FormItem>
                 )}
               /> */}
-              <Button
-                type="submit"
-                variant="outline"
-                className="bg-black text-white rounded-md w-[100px]"
-                style={{ borderRadius: "10px" }}
-              >
-                Submit
-              </Button>
+              <Link to="/login">
+                <Button
+                  type="submit"
+                  variant="outline"
+                  className="bg-black text-white rounded-md w-[100px]"
+                  style={{ borderRadius: "10px" }}
+                >
+                  Submit
+                </Button>
+              </Link>
             </form>
           </Form>
         </div>
