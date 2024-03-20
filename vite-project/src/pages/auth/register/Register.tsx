@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 const formSchema = z.object({
   name: z.string(),
   phone: z.string(),
@@ -141,14 +142,16 @@ const Register = () => {
                   </FormItem>
                 )}
               />
-              <Button
-                type="submit"
-                variant="outline"
-                className="bg-white"
-                style={{ borderRadius: "10px" }}
-              >
-                Submit
-              </Button>
+              <Link to="/login">
+                <Button
+                  type="submit"
+                  variant="outline"
+                  className="bg-white"
+                  style={{ borderRadius: "10px" }}
+                >
+                  Submit
+                </Button>
+              </Link>
             </form>
           </Form>
         </div>
