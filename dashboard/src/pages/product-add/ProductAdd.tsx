@@ -6,6 +6,7 @@ import AddProduct from "@/pages/product-add/component/add-product";
 import { Button } from "@/components/ui/button";
 import { useAllProduct } from "@/api/productApp/query";
 import SearchComponemt from "@/pages/page-component/ButtonComponent";
+import { Pagination } from "@/components/ui/pagination";
 
 export const ProductAdd = () => {
   const { data, isError } = useAllProduct();
@@ -31,6 +32,7 @@ export const ProductAdd = () => {
         </div>
       </div>
       <DataTable columns={columns} data={data} />
+      <Pagination />
     </div>
   );
 };
