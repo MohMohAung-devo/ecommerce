@@ -100,6 +100,22 @@ app.post("/productApp", upload.single("image"), async (req, res) => {
   }
 });
 
+app.put("/product/edit", async (req, res) => {
+  try {
+    // const editProduct = await AddProductModel.findById(editProduct._id);
+    // console.log("id", editProduct._id);
+
+    const {_id} = req.body
+    const product = await AddProductModel.find();
+    console.log(product);
+
+    const editProduct = await AddProductModel.findById({_id})
+    console.log(editProduct._id);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 app.get("/productAdd/all", async (req, res) => {
   try {
     const productAll = await AddProductModel.find();
