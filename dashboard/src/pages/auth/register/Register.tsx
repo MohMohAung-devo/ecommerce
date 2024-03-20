@@ -49,7 +49,7 @@ const Register = () => {
   return (
     <div className={classes.formContainer}>
       <div className={classes.Container}>
-        <h1>Register</h1>
+        <h1 className="text-lg">Register</h1>
         <div className={classes.formItem}>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
