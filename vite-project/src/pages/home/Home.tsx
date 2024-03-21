@@ -58,15 +58,18 @@ export const Home = () => {
       <div className={classes.ImageContainer}>
         <div className={classes.collectionList}>
           <h1 className="text-4xl">Collection</h1>
-          <Input
-            placeholder="Search..."
-            style={{
-              width: "300px",
-              borderRadius: "10px",
-              backgroundColor: "#A3A7A4",
-              border: "1px solid #A3A7A4",
-            }}
-          />
+          <div className="flex justify-between justify-items-center text-center">
+            <Input
+              placeholder="Search..."
+              style={{
+                width: "300px",
+                borderRadius: "10px",
+                backgroundColor: "#A3A7A4",
+                border: "1px solid #A3A7A4",
+              }}
+            />
+            <p>Cart</p>
+          </div>
         </div>
         <div className={classes.imageList}>
           {dataItem.map((item) => (
@@ -91,6 +94,7 @@ export const Home = () => {
                     width: "100px",
                     backgroundColor: "#A3A7A4",
                     color: "black",
+                    border: "1px solid #A3A7A4",
                   }}
                 >
                   Buy

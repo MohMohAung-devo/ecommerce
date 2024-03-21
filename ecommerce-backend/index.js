@@ -39,10 +39,66 @@ const AddProductCreateSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now, required: true },
 });
 
+const websiteUser = new mongoose.Schema({
+  _id: mongoose.Schema.Types.ObjectId,
+  name: String,
+  phone: String,
+  email: String,
+  // location: String,
+  password: String,
+});
+
+const RegisterWebsiteUserModel = mongoose.model("websiteUser", websiteUser);
 const AddProductModel = mongoose.model("ecommerce", AddProductCreateSchema);
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+// website user //
+
+app.post("/websiteUser/register", async (req, res) => {
+  try {
+    const { name, phone, email, password } = req.body;
+
+    const registerUser = await RegisterWebsiteUserModel({
+      _id: new mongoose.Types.ObjectId(),
+      name,
+      phone,
+      email,
+
+      password,
+    });
+    await registerUser.save();
+
+    await RegisterWebsiteUserModel.findByIdAndUpdate(registerUser._id);
+
+    return res.status(201).json({
+      meta: { success: true, message: "Register Successfully" },
+      body: {
+        name: registerUser.name,
+        phone: registerUser.phone,
+        email: registerUser.email,
+
+        password: registerUser.password,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.send(500).send("Internal Server Error");
+  }
+});
+
+app.get("/websiteUser/all", async (req, res) => {
+  try {
+    const websiteUserAll = await RegisterWebsiteUserModel.find();
+    console.log(websiteUserAll);
+
+    return res.status(200).json({
+      meta: { success: true, message: "Register user fetch all successfully" },
+      body: {
+        websiteUserAll,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.post("/productApp", upload.single("image"), async (req, res) => {
@@ -105,11 +161,11 @@ app.put("/product/edit", async (req, res) => {
     // const editProduct = await AddProductModel.findById(editProduct._id);
     // console.log("id", editProduct._id);
 
-    const {_id} = req.body
+    const { _id } = req.body;
     const product = await AddProductModel.find();
     console.log(product);
 
-    const editProduct = await AddProductModel.findById({_id})
+    const editProduct = await AddProductModel.findById({ _id });
     console.log(editProduct._id);
   } catch (err) {
     console.log(err);
