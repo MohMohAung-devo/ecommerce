@@ -18,6 +18,12 @@ export const Home = () => {
     { name: "Women clothes", image: Photo1, price: 100 },
     { name: "Women clothes", image: Photo2, price: 100 },
     { name: "Women clothes", image: Photo, price: 100 },
+    { name: "Women clothes", image: Photo1, price: 100 },
+    { name: "Women clothes", image: Photo2, price: 100 },
+    { name: "Women clothes", image: Photo, price: 100 },
+    { name: "Women clothes", image: Photo1, price: 100 },
+    { name: "Women clothes", image: Photo2, price: 100 },
+    { name: "Women clothes", image: Photo, price: 100 },
   ];
 
   const handleNext = () => {
@@ -58,7 +64,11 @@ export const Home = () => {
       <div className={classes.ImageContainer}>
         <div className={classes.collectionList}>
           <h1 className="text-4xl">Collection</h1>
-          <div className="flex justify-between justify-items-center text-center">
+          <div
+            // className="flex justify-between justify-items-center text-center"
+
+            className={classes.CartContainer}
+          >
             <Input
               placeholder="Search..."
               style={{
@@ -78,7 +88,12 @@ export const Home = () => {
               <img
                 src={item.image}
                 alt=""
-                style={{ width: "350px", height: "200px", marginTop: "1rem" }}
+                style={{
+                  width: "350px",
+                  height: "200px",
+                  marginTop: "1rem",
+                  borderRadius: "10px",
+                }}
               />
               <div className={classes.priceButton}>
                 {" "}

@@ -10,7 +10,7 @@ export const UserList = () => {
     <div>
       <div>
         <h1>Hello</h1>
-        <DataTable columns={columns} data={data} />
+        {/* <DataTable columns={columns} data={data} /> */}
       </div>
     </div>
   );

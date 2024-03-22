@@ -57,8 +57,8 @@
   /* height: 1000px; */
   margin: auto;
   display: flex;
-  justify-content: center;
-  justify-content: end;
-  align-items: end;
+  /* justify-content: center;
+  justify-content: end; */
+
   margin-top: 9rem;
 }

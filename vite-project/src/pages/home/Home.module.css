@@ -3,7 +3,6 @@
   height: 100%;
   font-family: sans-serif;
   position: relative;
-  
 }
 
 .Home {
@@ -34,7 +33,6 @@
   flex-direction: row;
   background-size: auto;
   height: 100%;
-
 }
 
 .Image {
@@ -44,11 +42,9 @@
 .ImageContainer {
   width: 80%;
   margin: auto;
-  height: 100vh;
-  /* display: flex;
-  justify-content: center;
-  justify-items: center; */
+  height: 100%;
   margin-top: 5rem;
+  margin-bottom: 3rem;
 }
 
 .collectionList {
@@ -69,16 +65,32 @@
   display: grid;
   grid-template-columns: 2fr 2fr 2fr;
   gap: 3rem;
+  height: 100%;
+}
+
+.CartContainer {
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+  width: 25%;
+  text-align: center;
+  align-items: center;
+  align-content: center;
 }
 
 .list {
   width: 400px;
   height: 350px;
-  border: 1px solid gray;
+  border: 1px solid #cecfcf;
   color: black;
   padding: 0 2rem;
   border-radius: 10px;
   margin: auto;
+}
+.list:hover {
+  background-color: #cecfcf;
+  border: 1px solid #cecfcf;
+  color:  white;
 }
 
 .listName {
