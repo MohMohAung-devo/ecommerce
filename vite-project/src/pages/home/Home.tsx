@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import classes from "./Home.module.css";
 import Photo from "../../../public/Photo.jpg";
 import Photo1 from "../../../public/Photo1.jpg";
@@ -6,6 +6,7 @@ import Photo2 from "../../../public/Photo2.jpg";
 import { Button } from "@/components/ui/button";
 import { useAllProduct } from "@/pages/api/server/home/query";
 import { Input } from "@/components/ui/input";
+import { FaShoppingCart } from "react-icons/fa";
 export const Home = () => {
   const { data, isError } = useAllProduct();
 
@@ -64,11 +65,7 @@ export const Home = () => {
       <div className={classes.ImageContainer}>
         <div className={classes.collectionList}>
           <h1 className="text-4xl">Collection</h1>
-          <div
-            // className="flex justify-between justify-items-center text-center"
-
-            className={classes.CartContainer}
-          >
+          <div className={classes.CartContainer}>
             <Input
               placeholder="Search..."
               style={{
@@ -78,7 +75,7 @@ export const Home = () => {
                 border: "1px solid #A3A7A4",
               }}
             />
-            <p>Cart</p>
+            <FaShoppingCart size={32} color="#A3A7A4" />
           </div>
         </div>
         <div className={classes.imageList}>
@@ -117,6 +114,20 @@ export const Home = () => {
               </div>
             </div>
           ))}
+        </div>
+        <div className={classes.LoadmoreButton}>
+          <Button
+            variant="outline"
+            style={{
+              borderRadius: "10px",
+              width: "120px",
+              height: "45px",
+              backgroundColor: "#A3A7A4",
+              border: "1px solid #cecfcf",
+            }}
+          >
+            Load more
+          </Button>
         </div>
       </div>
     </div>

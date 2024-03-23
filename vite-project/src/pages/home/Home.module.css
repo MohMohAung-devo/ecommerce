@@ -90,7 +90,7 @@
 .list:hover {
   background-color: #cecfcf;
   border: 1px solid #cecfcf;
-  color:  white;
+  color: white;
 }
 
 .listName {
@@ -103,4 +103,12 @@
   align-items: center;
   align-content: center;
   margin-top: 1rem;
+}
+
+.LoadmoreButton {
+  justify-content: center;
+  justify-items: center;
+  text-align: center;
+  align-items: center;
+  color: black;
 }
