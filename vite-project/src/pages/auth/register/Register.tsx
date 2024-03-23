@@ -13,26 +13,30 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { useAllRegister } from "@/pages/api/server/auth/register/query";
 const formSchema = z.object({
   name: z.string(),
   phone: z.string(),
   email: z.string(),
-  location: z.string(),
+  password: z.string(),
+  currentLocation: z.string(),
 });
 
 const Register = () => {
+  const register = useAllRegister();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       phone: "",
       email: "",
-      location: "",
+      password: "",
+      currentLocation: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    register.mutate(values);
     console.log(values);
   }
   return (
@@ -75,7 +79,7 @@ const Register = () => {
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Your Phone Number</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="phone..."
@@ -99,7 +103,7 @@ const Register = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="email"
@@ -118,9 +122,34 @@ const Register = () => {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
-                name="location"
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="password"
+                        {...field}
+                        style={{
+                          borderRadius: "10px",
+                          backgroundColor: "white",
+                          border: "1px solid white",
+                        }}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      This is your public display name.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="currentLocation"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Username</FormLabel>
@@ -142,16 +171,15 @@ const Register = () => {
                   </FormItem>
                 )}
               />
-              <Link to="/login">
-                <Button
-                  type="submit"
-                  variant="outline"
-                  className="bg-white"
-                  style={{ borderRadius: "10px" }}
-                >
-                  Submit
-                </Button>
-              </Link>
+
+              <Button
+                type="submit"
+                variant="outline"
+                className="bg-white"
+                style={{ borderRadius: "10px" }}
+              >
+                Submit
+              </Button>
             </form>
           </Form>
         </div>

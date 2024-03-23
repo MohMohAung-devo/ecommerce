@@ -7,11 +7,15 @@ import { Button } from "@/components/ui/button";
 import { useAllProduct } from "@/pages/api/server/home/query";
 import { Input } from "@/components/ui/input";
 import { FaShoppingCart } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { FaAngleRight } from "react-icons/fa";
+import { FaAngleLeft } from "react-icons/fa";
 export const Home = () => {
   const { data, isError } = useAllProduct();
 
   console.log(data);
   const [next, setNext] = useState(0);
+  const [count, setCount] = useState(0);
   const item = [Photo, Photo1, Photo2];
 
   const dataItem = [
@@ -35,6 +39,11 @@ export const Home = () => {
     setNext((prev) => (prev === 0 ? item.length - 1 : prev - 1));
   };
 
+  const handleCount = () => {
+    setCount(count + 1);
+  };
+  console.log(count);
+
   return (
     <div className={classes.Container}>
       <div className={classes.Home}>
@@ -48,17 +57,18 @@ export const Home = () => {
           }}
         ></div>
         <div className={classes.leftButton}>
-          <Button onClick={handlePrevious} style={{ width: "100px" }}>
-            Previous
-          </Button>
+          {/* <Button onClick={handlePrevious} style={{ width: "100px" }}> */}
+          <FaAngleLeft onClick={handlePrevious} size={30}/>
+          {/* </Button> */}
         </div>
         <div className={classes.rightButton}>
-          <Button
+          {/* <Button
             onClick={handleNext}
             style={{ width: "100px", borderRadius: "10px" }}
-          >
-            Next
-          </Button>
+          > */}
+
+          <FaAngleRight onClick={handleNext} size={30}/>
+          {/* </Button> */}
         </div>
       </div>
 
@@ -75,7 +85,21 @@ export const Home = () => {
                 border: "1px solid #A3A7A4",
               }}
             />
-            <FaShoppingCart size={32} color="#A3A7A4" />
+            <Link to="/detail-page">
+              <div style={{ cursor: "pointer" }}>
+                <FaShoppingCart size={32} color="#A3A7A4" />
+                <p
+                  style={{
+                    position: "absolute",
+                    marginTop: "-2.7rem",
+                    marginLeft: "1rem",
+                    color: "black",
+                  }}
+                >
+                  {count}
+                </p>
+              </div>
+            </Link>
           </div>
         </div>
         <div className={classes.imageList}>
@@ -108,6 +132,7 @@ export const Home = () => {
                     color: "black",
                     border: "1px solid #A3A7A4",
                   }}
+                  onClick={handleCount}
                 >
                   Buy
                 </Button>

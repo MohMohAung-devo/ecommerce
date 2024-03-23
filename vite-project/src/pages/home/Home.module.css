@@ -15,14 +15,16 @@
 .leftButton {
   position: absolute;
   top: 50vh;
-  background-color: white;
+  /* background-color: white; */
   left: 3rem;
+  cursor: pointer;
 }
 .rightButton {
   position: absolute;
   top: 50vh;
-  background-color: white;
+  /* background-color: white; */
   right: 3rem;
+  cursor: pointer;
 }
 
 .image {

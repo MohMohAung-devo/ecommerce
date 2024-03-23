@@ -21,7 +21,7 @@
 
 .form {
   width: 40%;
-  height: 70vh;
+  height: 100vh;
   margin: auto;
   display: flex;
   flex-direction: column;
