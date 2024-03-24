@@ -31,3 +31,18 @@ export const useAllProduct = (payload: AddProductPayload) => {
     },
   });
 };
+
+// export const AllEditFn = async (
+//   payload: ProductAll,
+//   id: string
+// ): Promise<AddProductPayload> => {
+//   const response = await axios.patch(`${URL}/product/edit/:id`, {
+//     params: payload,
+//     id,
+//   });
+//   return response.data;
+// };
+
+// export const useEdit = (payload: AddProductPayload) => {
+
+// }

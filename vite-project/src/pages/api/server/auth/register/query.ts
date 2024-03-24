@@ -2,7 +2,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { RegisterPayload } from "@/pages/api/server/auth/register/type";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { error } from "console";
 import { useNavigate } from "react-router-dom";
 
 const URL = `http://localhost:3000`;

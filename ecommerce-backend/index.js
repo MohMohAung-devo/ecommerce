@@ -8,6 +8,7 @@ const URL = `http://localhost:3000`;
 
 const multer = require("multer");
 const path = require("path");
+const { count } = require("console");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -46,23 +47,30 @@ const websiteUser = new mongoose.Schema({
   email: String,
   // location: String,
   password: String,
+  currentLocation: String,
+});
+
+const websiteCount = new mongoose.Schema({
+  _id: mongoose.Schema.Types.ObjectId,
+  productList: { type: mongoose.Schema.Types.ObjectId, ref: "ecommerce" },
 });
 
 const RegisterWebsiteUserModel = mongoose.model("websiteUser", websiteUser);
 const AddProductModel = mongoose.model("ecommerce", AddProductCreateSchema);
+const websiteCountModel = mongoose.model("count", websiteCount);
 
 // website user //
 
 app.post("/websiteUser/register", async (req, res) => {
   try {
-    const { name, phone, email, password } = req.body;
+    const { name, phone, email, password, currentLocation } = req.body;
 
     const registerUser = await RegisterWebsiteUserModel({
       _id: new mongoose.Types.ObjectId(),
       name,
       phone,
       email,
-
+      currentLocation,
       password,
     });
     await registerUser.save();
@@ -75,7 +83,7 @@ app.post("/websiteUser/register", async (req, res) => {
         name: registerUser.name,
         phone: registerUser.phone,
         email: registerUser.email,
-
+        currentLocation: registerUser.currentLocation,
         password: registerUser.password,
       },
     });
@@ -96,6 +104,15 @@ app.get("/websiteUser/all", async (req, res) => {
         websiteUserAll,
       },
     });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.post("/website/count", async (req, res) => {
+  try {
+    const productData = await AddProductModel.find();
+    console.log(productData);
   } catch (err) {
     console.log(err);
   }
@@ -156,17 +173,44 @@ app.post("/productApp", upload.single("image"), async (req, res) => {
   }
 });
 
-app.put("/product/edit", async (req, res) => {
+app.patch("/product/edit/:id", async (req, res) => {
   try {
-    // const editProduct = await AddProductModel.findById(editProduct._id);
-    // console.log("id", editProduct._id);
+    const productId = req.params.id;
+    console.log(productId);
 
-    const { _id } = req.body;
-    const product = await AddProductModel.find();
+    const product = await AddProductModel.findById(productId);
     console.log(product);
+    if (!product) {
+      return res.status(404).json({
+        meta: { success: false, message: "Product not found" },
+      });
+    }
 
-    const editProduct = await AddProductModel.findById({ _id });
-    console.log(editProduct._id);
+    // const editProduct = await AddProductModel.findByIdAndUpdate({
+    //   id: editProduct._id,
+    //   name: editProduct.name,
+    //   price: editProduct.price,
+    //   count: editProduct.count,
+    //   image: editProduct.image,
+    // });
+
+    if (req.body.name) {
+      product.name = req.body.name;
+    }
+
+    if (req.body.price) {
+      product.price = req.body.price;
+    }
+
+    if (req.body.count) {
+      product.count = req.body.count;
+    }
+
+    if (req.body.image) {
+      product.image = req.body.image;
+    }
+
+    await product.save();
   } catch (err) {
     console.log(err);
   }
