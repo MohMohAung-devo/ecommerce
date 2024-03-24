@@ -194,23 +194,19 @@ app.patch("/product/edit/:id", async (req, res) => {
     //   image: editProduct.image,
     // });
 
-    if (req.body.name) {
-      product.name = req.body.name;
-    }
+    const { name, price, count, image } = req.body;
 
-    if (req.body.price) {
-      product.price = req.body.price;
-    }
-
-    if (req.body.count) {
-      product.count = req.body.count;
-    }
-
-    if (req.body.image) {
-      product.image = req.body.image;
-    }
+    product.name = name || product.name;
+    product.price = price || product.price;
+    product.count = count || product.count;
+    product.image = image || product.image;
 
     await product.save();
+
+    res.status(200).json({
+      meta: { success: true, message: "Product updated successfully" },
+      data: product,
+    });
   } catch (err) {
     console.log(err);
   }
