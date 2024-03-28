@@ -8,6 +8,7 @@ export interface Body {
 }
 
 export interface ProductAll {
+  _id: string;
   image: Image;
   name: string;
   amount: number;

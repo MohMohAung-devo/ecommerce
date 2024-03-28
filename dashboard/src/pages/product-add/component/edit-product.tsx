@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useState } from "react";
-import { nullable, z } from "zod";
+import React, { useState } from "react";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -21,25 +21,17 @@ import {
 } from "@/components/ui/dialog";
 import classes from "./add-product.module.css";
 import { Button } from "@/components/ui/button";
-// import useImageUpload from "@/pages/hook/use-image";
 import { useAddProduct } from "@/api/productApp/mutation";
 
 const formSchema = z.object({
-  // id: z.string(),
+  id: z.string(),
   name: z.string(),
   image: z.instanceof(FileList).optional(),
-  amount: z.coerce.number(),
-  price: z.coerce.number(),
-  count: z.coerce.number(),
+  amount: z.number(),
   date: z.string(),
 });
 
-const AddProduct = () => {
-  // const { file, previewUrl, error, upload, handlFileChange, handleUpload } =
-  //   useImageUpload();
-
-  const [preview, setPreview] = useState("");
-
+const EditProduct = () => {
   const addProduct = useAddProduct();
   const [open, setOpen] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -49,61 +41,43 @@ const AddProduct = () => {
       name: "",
       image: undefined,
       amount: 0,
-      price: 0,
-      count: 0,
       date: "",
     },
   });
 
-  function ImageUplad(event: ChangeEvent<HTMLInputElement>) {
-    const dataTransfer = new DataTransfer();
+  const fileRef = form.register("image");
+  const [previewImage, setPreviewImage] = useState<string | null>(null); // State for preview image
 
-    Array.from(event.target.files!).forEach((image) =>
-      dataTransfer.items.add(image)
-    );
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target?.files?.[0];
 
-    const file = dataTransfer.files;
-    const displayUrl = URL.createObjectURL(event.target.files![0]);
+    if (!selectedFile) {
+      setPreviewImage(null);
+      return;
+    }
 
-    return { file, displayUrl };
-  }
+    // Validate file type (optional)
+    if (!["image/jpeg", "image/png"].includes(selectedFile.type)) {
+      alert("Invalid image format. Please select a JPEG or PNG file.");
+      setPreviewImage(null);
+      return;
+    }
 
-  // const fileRef = form.register("image");
-  // const [previewImage, setPreviewImage] = useState<string | null>(null); // State for preview image
-
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const selectedFile = event.target?.files?.[0];
-
-  //   if (!selectedFile) {
-  //     setPreviewImage(null);
-  //     return;
-  //   }
-  //   if (!["image/jpeg", "image/png"].includes(selectedFile.type)) {
-  //     alert("Invalid image format. Please select a JPEG or PNG file.");
-  //     setPreviewImage(null);
-  //     return;
-  //   }
-
-  //   const reader = new FileReader() as FileReader & { result: string };
-  //   reader.onloadend = () => {
-  //     setPreviewImage(reader.result);
-  //   };
-  //   reader.readAsDataURL(selectedFile);
-  // };
+    const reader = new FileReader() as FileReader & { result: string };
+    reader.onloadend = () => {
+      setPreviewImage(reader.result);
+    };
+    reader.readAsDataURL(selectedFile);
+  };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     addProduct.mutate(values);
-
     console.log(values);
   }
   return (
     <>
       <div className={classes.Container}>
-        <Dialog
-          open={open}
-          onOpenChange={setOpen}
-          // position={{ top: 30, right: 20 }}
-        >
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button variant="outline" style={{ borderRadius: "5px" }}>
               Create Product
@@ -119,24 +93,6 @@ const AddProduct = () => {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="grid gap-4 py-2"
                 >
-                  {/* <FormField
-                    control={form.control}
-                    name="id"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Id</FormLabel>
-                        <FormControl>
-                          <Input placeholder="shadcn" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          This is your public display name.
-                        </FormDescription>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  /> */}
-
                   <FormField
                     control={form.control}
                     name="name"
@@ -157,49 +113,31 @@ const AddProduct = () => {
                   <FormField
                     control={form.control}
                     name="image"
-                    render={({ field: { onChange, value, ...rest } }) => (
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel>Image</FormLabel>
                         <FormControl>
                           <Input
                             type="file"
-                            {...rest}
-                            onChange={(Event) => {
-                              const { file, displayUrl } = ImageUplad(Event);
-                              setPreview(displayUrl);
-                              onChange(file);
-                            }}
-                          />
-                          {/* <Input
-                            type="file"
                             {...field}
-                           
+                            // {...fileRef}
                             onChange={handleFileChange}
-                          /> */}
-                          {/* {error && <FormMessage error>{error}</FormMessage>} */}
+                          />
                         </FormControl>
 
-                        {/* <button
-                          type="button"
-                          onClick={() => handleUpload("your-upload-url")}
-                        >
-                          Upload
-                        </button>
-
-                        {upload > 0 && <p>Upload progress: {upload}%</p>} */}
                         <FormDescription>
                           This is your public display name.
                         </FormDescription>
-                        {/* {previewImage && (
+                        {previewImage && (
                           <>
                             <img
                               src={previewImage}
                               alt="Preview"
-                              className="w-30 h-30 object-cover"
+                              className="w-48 h-48 object-cover"
                             />
                             <FormMessage>Selected file preview</FormMessage>
                           </>
-                        )} */}
+                        )}
                         <FormMessage />
                       </FormItem>
                     )}
@@ -210,42 +148,6 @@ const AddProduct = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Amount</FormLabel>
-                        <FormControl>
-                          <Input placeholder="shadcn" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          This is your public display name.
-                        </FormDescription>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="price"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <Input placeholder="shadcn" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          This is your public display name.
-                        </FormDescription>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="count"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Count</FormLabel>
                         <FormControl>
                           <Input placeholder="shadcn" {...field} />
                         </FormControl>
@@ -292,4 +194,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

@@ -21,6 +21,7 @@ export const useAllProduct = (payload: AddProductPayload) => {
       console.log({ data });
       const dataList = data.body.productAll;
       return dataList.map((list: ProductAll) => ({
+        id: list._id,
         name: list.name,
         amount: list.amount,
         price: list.price,
@@ -46,4 +47,3 @@ export const useAllProduct = (payload: AddProductPayload) => {
 // export const useEdit = (payload: AddProductPayload) => {
 
 // }
-

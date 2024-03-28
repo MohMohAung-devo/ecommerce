@@ -18,6 +18,11 @@ const formatDate = (dateString) => {
 };
 export const columns: ColumnDef<ProductAll>[] = [
   {
+    accessorKey: "id",
+    header: "Id",
+    cell: ({ row }) => <div>{row.original.id}</div>,
+  },
+  {
     accessorKey: "name",
     header: "Name",
   },

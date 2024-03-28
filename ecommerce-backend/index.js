@@ -173,7 +173,7 @@ app.post("/productApp", upload.single("image"), async (req, res) => {
   }
 });
 
-app.patch("/product/edit/:id", async (req, res) => {
+app.put("/product/edit/:id", async (req, res) => {
   try {
     const productId = req.params.id;
     console.log(productId);
@@ -186,20 +186,25 @@ app.patch("/product/edit/:id", async (req, res) => {
       });
     }
 
-    // const editProduct = await AddProductModel.findByIdAndUpdate({
-    //   id: editProduct._id,
-    //   name: editProduct.name,
-    //   price: editProduct.price,
-    //   count: editProduct.count,
-    //   image: editProduct.image,
-    // });
+    const { name, price, count } = req.body;
+    let imageData = product.image;
 
-    const { name, price, count, image } = req.body;
+    if (req.file) {
+      imageData = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
+        filename: req.file.filename,
+        path: req.file.path,
+      };
+
+      const imagePath = `${URL}/images/${req.file.filename}`;
+      product.image.path = imagePath;
+    }
 
     product.name = name || product.name;
     product.price = price || product.price;
     product.count = count || product.count;
-    product.image = image || product.image;
+    product.image = imageData;
 
     await product.save();
 
@@ -207,6 +212,18 @@ app.patch("/product/edit/:id", async (req, res) => {
       meta: { success: true, message: "Product updated successfully" },
       data: product,
     });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.delete("/product/delte/:id", async (req, res) => {
+  try {
+    const productId = req.params.id;
+    console.log(productId);
+
+    const produt = await AddProductModel.findByIdAndDelete(productId);
+    console.log(produt);
   } catch (err) {
     console.log(err);
   }
