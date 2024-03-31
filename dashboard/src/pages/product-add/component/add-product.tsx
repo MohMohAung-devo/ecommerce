@@ -55,44 +55,54 @@ const AddProduct = () => {
     },
   });
 
-  function ImageUplad(event: ChangeEvent<HTMLInputElement>) {
-    const dataTransfer = new DataTransfer();
+  // function ImageUplad(event: ChangeEvent<HTMLInputElement>) {
+  //   const dataTransfer = new DataTransfer();
 
-    Array.from(event.target.files!).forEach((image) =>
-      dataTransfer.items.add(image)
-    );
+  //   Array.from(event.target.files!).forEach((image) =>
+  //     dataTransfer.items.add(image)
+  //   );
 
-    const file = dataTransfer.files;
-    const displayUrl = URL.createObjectURL(event.target.files![0]);
+  //   const file = dataTransfer.files;
+  //   const displayUrl = URL.createObjectURL(event.target.files![0]);
 
-    return { file, displayUrl };
-  }
+  //   return { file, displayUrl };
+  // }
 
-  // const fileRef = form.register("image");
-  // const [previewImage, setPreviewImage] = useState<string | null>(null); // State for preview image
+  const fileRef = form.register("image");
+  const [previewImage, setPreviewImage] = useState<string | null>(null); // State for preview image
 
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const selectedFile = event.target?.files?.[0];
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target?.files?.[0];
 
-  //   if (!selectedFile) {
-  //     setPreviewImage(null);
-  //     return;
-  //   }
-  //   if (!["image/jpeg", "image/png"].includes(selectedFile.type)) {
-  //     alert("Invalid image format. Please select a JPEG or PNG file.");
-  //     setPreviewImage(null);
-  //     return;
-  //   }
+    if (!selectedFile) {
+      setPreviewImage(null);
+      return;
+    }
+    if (!["image/jpeg", "image/png"].includes(selectedFile.type)) {
+      alert("Invalid image format. Please select a JPEG or PNG file.");
+      setPreviewImage(null);
+      return;
+    }
 
-  //   const reader = new FileReader() as FileReader & { result: string };
-  //   reader.onloadend = () => {
-  //     setPreviewImage(reader.result);
-  //   };
-  //   reader.readAsDataURL(selectedFile);
-  // };
+    const reader = new FileReader() as FileReader & { result: string };
+    reader.onloadend = () => {
+      setPreviewImage(reader.result);
+    };
+
+    // setPreviewImage({ ...previewImage });
+    reader.readAsDataURL(selectedFile);
+
+    // form.setValue("image", selectedFile);
+  };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    if (values.image) {
+      console.log("Image is present:", values.image);
+    } else {
+      console.log("No image selected or image upload failed.");
+    }
     addProduct.mutate(values);
+    // setPreviewImage({ ...previewImage });
 
     console.log(values);
   }
@@ -119,24 +129,6 @@ const AddProduct = () => {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="grid gap-4 py-2"
                 >
-                  {/* <FormField
-                    control={form.control}
-                    name="id"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Id</FormLabel>
-                        <FormControl>
-                          <Input placeholder="shadcn" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          This is your public display name.
-                        </FormDescription>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  /> */}
-
                   <FormField
                     control={form.control}
                     name="name"
@@ -157,11 +149,11 @@ const AddProduct = () => {
                   <FormField
                     control={form.control}
                     name="image"
-                    render={({ field: { onChange, value, ...rest } }) => (
+                    render={({ field: { onChange } }) => (
                       <FormItem>
                         <FormLabel>Image</FormLabel>
                         <FormControl>
-                          <Input
+                          {/* <Input
                             type="file"
                             {...rest}
                             onChange={(Event) => {
@@ -169,13 +161,12 @@ const AddProduct = () => {
                               setPreview(displayUrl);
                               onChange(file);
                             }}
-                          />
-                          {/* <Input
-                            type="file"
-                            {...field}
-                           
-                            onChange={handleFileChange}
                           /> */}
+                          <Input
+                            type="file"
+                            {...fileRef}
+                            onChange={handleFileChange}
+                          />
                           {/* {error && <FormMessage error>{error}</FormMessage>} */}
                         </FormControl>
 
@@ -190,7 +181,7 @@ const AddProduct = () => {
                         <FormDescription>
                           This is your public display name.
                         </FormDescription>
-                        {/* {previewImage && (
+                        {previewImage && (
                           <>
                             <img
                               src={previewImage}
@@ -199,7 +190,7 @@ const AddProduct = () => {
                             />
                             <FormMessage>Selected file preview</FormMessage>
                           </>
-                        )} */}
+                        )}
                         <FormMessage />
                       </FormItem>
                     )}

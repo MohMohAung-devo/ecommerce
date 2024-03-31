@@ -118,60 +118,65 @@ app.post("/website/count", async (req, res) => {
   }
 });
 
-app.post("/productApp", upload.single("image"), async (req, res) => {
-  try {
-    console.log("Request body:", req.body);
-    console.log("Uploaded file:", req.file);
+app.post(
+  "/productApp",
+  upload.single("image"),
 
-    // Check if req.file is undefined
-    if (!req.file) {
-      return res.status(400).json({
-        meta: { success: false, message: "No file uploaded" },
-      });
-    }
-    const { name, price, count, date } = req.body;
-    const image = {
-      data: req.file.buffer,
-      contentType: req.file.mimetype,
-      filename: req.file.filename,
-      path: req.file.path,
-    };
+  async (req, res) => {
+    try {
+      console.log("Request body:", req.body);
+      console.log("Uploaded file:", req.file);
 
-    const imagePath = `${URL}/images/${req.file.filename}`;
-
-    const AddProduct = new AddProductModel({
-      _id: new mongoose.Types.ObjectId(),
-      name,
-      price,
-      count,
-      date,
-      image,
-    });
-
-    await AddProduct.save();
-
-    await AddProductModel.findByIdAndUpdate(
-      AddProduct._id,
-      { "image.path": imagePath },
-      { new: true }
-    );
-
-    return res.status(201).json({
-      meta: { success: true, message: "Add Product Create Successfully" },
-      body: {
-        name: AddProduct.name,
-        price: AddProduct.price,
-        count: AddProduct.count,
-        image: imagePath,
-        date: AddProduct.date,
+      // Check if req.file is undefined
+      if (!req.file) {
+        return res.status(400).json({
+          meta: { success: false, message: "No file uploaded" },
+        });
+      }
+      const { name, price, count, date } = req.body;
+      const image = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
         filename: req.file.filename,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("Internal Server Error");
+        path: req.file.path,
+      };
+
+      const imagePath = `${URL}/images/${req.file.filename}`;
+
+      const AddProduct = new AddProductModel({
+        _id: new mongoose.Types.ObjectId(),
+        name,
+        price,
+        count,
+        date,
+        image,
+      });
+
+      await AddProduct.save();
+
+      await AddProductModel.findByIdAndUpdate(
+        AddProduct._id,
+        { "image.path": imagePath },
+        { new: true }
+      );
+
+      return res.status(201).json({
+        meta: { success: true, message: "Add Product Create Successfully" },
+        body: {
+          name: AddProduct.name,
+          price: AddProduct.price,
+          count: AddProduct.count,
+          image: imagePath,
+          date: AddProduct.date,
+          filename: req.file.filename,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Internal Server Error");
+    }
   }
-});
+);
 
 app.put("/product/edit/:id", async (req, res) => {
   try {
