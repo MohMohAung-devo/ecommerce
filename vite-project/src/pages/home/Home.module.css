@@ -16,15 +16,19 @@
   position: absolute;
   top: 50vh;
   /* background-color: white; */
-  left: 3rem;
+  left: 10%;
   cursor: pointer;
 }
 .rightButton {
   position: absolute;
   top: 50vh;
   /* background-color: white; */
-  right: 3rem;
+  right: 10%;
   cursor: pointer;
+}
+
+.buttonIcons {
+  font-size: 40px;
 }
 
 .image {

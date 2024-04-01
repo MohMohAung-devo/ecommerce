@@ -58,7 +58,12 @@ export const Home = () => {
         ></div>
         <div className={classes.leftButton}>
           {/* <Button onClick={handlePrevious} style={{ width: "100px" }}> */}
-          <FaAngleLeft onClick={handlePrevious} size={30}/>
+          <FaAngleLeft
+            onClick={handlePrevious}
+            // size={30}
+            color="white"
+            className={classes.buttonIcons}
+          />
           {/* </Button> */}
         </div>
         <div className={classes.rightButton}>
@@ -67,7 +72,11 @@ export const Home = () => {
             style={{ width: "100px", borderRadius: "10px" }}
           > */}
 
-          <FaAngleRight onClick={handleNext} size={30}/>
+          <FaAngleRight
+            onClick={handleNext}
+            color="white"
+            className={classes.buttonIcons}
+          />
           {/* </Button> */}
         </div>
       </div>

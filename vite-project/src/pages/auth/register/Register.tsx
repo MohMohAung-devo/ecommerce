@@ -15,11 +15,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAllRegister } from "@/pages/api/server/auth/register/query";
 const formSchema = z.object({
-  name: z.string(),
-  phone: z.string(),
+  name: z.string().min(4, {
+    message: "UserName must be required",
+  }),
+  phone: z.string().min(11, {
+    message: "Phone number must be required",
+  }),
   email: z.string(),
-  password: z.string(),
-  currentLocation: z.string(),
+  password: z.string().min(6, {
+    message: "Password must be required",
+  }),
+  currentLocation: z.string().min(6, {
+    message: "Location must be required",
+  }),
 });
 
 const Register = () => {

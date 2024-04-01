@@ -23,6 +23,7 @@ import classes from "./add-product.module.css";
 import { Button } from "@/components/ui/button";
 // import useImageUpload from "@/pages/hook/use-image";
 import { useAddProduct } from "@/api/productApp/mutation";
+import { error } from "console";
 
 const formSchema = z.object({
   // id: z.string(),
@@ -88,11 +89,7 @@ const AddProduct = () => {
     reader.onloadend = () => {
       setPreviewImage(reader.result);
     };
-
-    // setPreviewImage({ ...previewImage });
     reader.readAsDataURL(selectedFile);
-
-    // form.setValue("image", selectedFile);
   };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -101,19 +98,17 @@ const AddProduct = () => {
     } else {
       console.log("No image selected or image upload failed.");
     }
-    addProduct.mutate(values);
-    // setPreviewImage({ ...previewImage });
-
-    console.log(values);
+    addProduct.mutate(
+      {
+        values,
+      },
+      console.log(values)
+    );
   }
   return (
     <>
       <div className={classes.Container}>
-        <Dialog
-          open={open}
-          onOpenChange={setOpen}
-          // position={{ top: 30, right: 20 }}
-        >
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button variant="outline" style={{ borderRadius: "5px" }}>
               Create Product
@@ -153,31 +148,13 @@ const AddProduct = () => {
                       <FormItem>
                         <FormLabel>Image</FormLabel>
                         <FormControl>
-                          {/* <Input
-                            type="file"
-                            {...rest}
-                            onChange={(Event) => {
-                              const { file, displayUrl } = ImageUplad(Event);
-                              setPreview(displayUrl);
-                              onChange(file);
-                            }}
-                          /> */}
                           <Input
                             type="file"
                             {...fileRef}
                             onChange={handleFileChange}
                           />
-                          {/* {error && <FormMessage error>{error}</FormMessage>} */}
                         </FormControl>
 
-                        {/* <button
-                          type="button"
-                          onClick={() => handleUpload("your-upload-url")}
-                        >
-                          Upload
-                        </button>
-
-                        {upload > 0 && <p>Upload progress: {upload}%</p>} */}
                         <FormDescription>
                           This is your public display name.
                         </FormDescription>
