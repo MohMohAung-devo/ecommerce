@@ -6,9 +6,21 @@ import AddProduct from "@/pages/product-add/component/add-product";
 import { Button } from "@/components/ui/button";
 import { useAllProduct } from "@/api/productApp/query";
 import SearchComponemt from "@/pages/page-component/ButtonComponent";
-import { Pagination } from "@/components/ui/pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { Input } from "@/components/ui/input";
 
 export const ProductAdd = () => {
+  const [filterText, setFilterText] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemPerPage = 4;
   const { data, isError } = useAllProduct();
   console.log({ data });
 
@@ -20,19 +32,74 @@ export const ProductAdd = () => {
     return <div>No data available</div>;
   }
 
+  const filterData = data.filter((item) =>
+    item.name.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const indexOfLastItem = currentPage * itemPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemPerPage;
+  const currentItems = filterData.slice(indexOfFirstItem, indexOfLastItem);
+
   return (
     <div className={classes.ProductContainer}>
       <div className={classes.titleContainer}>
         <div className={classes.Container}>
           <h2>Add Product</h2>
           <div className={classes.searchContainer}>
-            {/* <SearchComponemt /> */}
+            <div className={classes.inputContainer}>
+              <Input
+                placeholder="Search...."
+                style={{ borderRadius: "10px", width: "250px" }}
+                value={filterText}
+                onChange={(e) => setFilterText(e.target.value)}
+              />
+              <Button>Search</Button>
+            </div>
             <AddProduct />
           </div>
         </div>
       </div>
-      <DataTable columns={columns} data={data} />
-      <Pagination />
+      <DataTable columns={columns} data={currentItems} />
+      {/* <Pagination
+        itemsPerPage={itemPerPage}
+        totalItems={filterData.length}
+        paginate={paginate}
+      /> */}
+
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={() => paginate(currentPage - 1)}
+              href="#"
+            />
+          </PaginationItem>
+
+          {Array.from({
+            length: Math.ceil(filterData.length / itemPerPage),
+          }).map((_, index) => (
+            <PaginationItem key={index}>
+              <PaginationLink
+                href="#"
+                isActive={index + 1 === currentPage}
+                onClick={() => paginate(index + 1)}
+              >
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationNext
+              onClick={() => paginate(currentPage + 1)}
+              href="#"
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };
