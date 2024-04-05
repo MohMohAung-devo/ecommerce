@@ -23,12 +23,15 @@ import classes from "./add-product.module.css";
 import { Button } from "@/components/ui/button";
 // import useImageUpload from "@/pages/hook/use-image";
 import { useAddProduct } from "@/api/productApp/mutation";
-import { error } from "console";
+
+const MAX_UPLOAD_SIZE = 1024 * 1024 * 3; // 3MB
+const ACCEPTED_FILE_TYPES = ["image/png"];
 
 const formSchema = z.object({
   // id: z.string(),
   name: z.string(),
-  image: z.instanceof(FileList).optional(),
+  // image: z.instanceof(FileList).optional(),
+  image: z.string(),
   amount: z.coerce.number(),
   price: z.coerce.number(),
   count: z.coerce.number(),
@@ -36,11 +39,6 @@ const formSchema = z.object({
 });
 
 const AddProduct = () => {
-  // const { file, previewUrl, error, upload, handlFileChange, handleUpload } =
-  //   useImageUpload();
-
-  const [preview, setPreview] = useState("");
-
   const addProduct = useAddProduct();
   const [open, setOpen] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -56,55 +54,35 @@ const AddProduct = () => {
     },
   });
 
-  // function ImageUplad(event: ChangeEvent<HTMLInputElement>) {
-  //   const dataTransfer = new DataTransfer();
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
-  //   Array.from(event.target.files!).forEach((image) =>
-  //     dataTransfer.items.add(image)
-  //   );
+  const uploadImage = async () => {
+    if (selectedImage) {
+      const formData = new FormData();
+      formData.append("image", selectedImage);
 
-  //   const file = dataTransfer.files;
-  //   const displayUrl = URL.createObjectURL(event.target.files![0]);
-
-  //   return { file, displayUrl };
-  // }
-
-  const fileRef = form.register("image");
-  const [previewImage, setPreviewImage] = useState<string | null>(null); // State for preview image
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target?.files?.[0];
-
-    if (!selectedFile) {
-      setPreviewImage(null);
-      return;
+      try {
+        const response = await fetch("http://localhost:5000/upload", {
+          method: "POST",
+          body: formData,
+        });
+        if (response.ok) {
+          console.log("Image uploaded successfully");
+        } else {
+          console.error("Failed to upload image");
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
     }
-    if (!["image/jpeg", "image/png"].includes(selectedFile.type)) {
-      alert("Invalid image format. Please select a JPEG or PNG file.");
-      setPreviewImage(null);
-      return;
-    }
-
-    const reader = new FileReader() as FileReader & { result: string };
-    reader.onloadend = () => {
-      setPreviewImage(reader.result);
-    };
-    reader.readAsDataURL(selectedFile);
   };
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    if (values.image) {
-      console.log("Image is present:", values.image);
-    } else {
-      console.log("No image selected or image upload failed.");
-    }
-    addProduct.mutate(
-      {
-        values,
-      },
-      console.log(values)
-    );
-  }
+  // function onSubmit(values: z.infer<typeof formSchema>) {
+  //   // addProduct.mutate(values);
+
+  //   uploadImage(values);
+  //   console.log(values);
+  // }
   return (
     <>
       <div className={classes.Container}>
@@ -121,7 +99,7 @@ const AddProduct = () => {
             <div>
               <Form {...form}>
                 <form
-                  onSubmit={form.handleSubmit(onSubmit)}
+                  onSubmit={form.handleSubmit(uploadImage)}
                   className="grid gap-4 py-2"
                 >
                   <FormField
@@ -141,37 +119,36 @@ const AddProduct = () => {
                       </FormItem>
                     )}
                   />
+
                   <FormField
                     control={form.control}
                     name="image"
-                    render={({ field: { onChange } }) => (
+                    render={({ field }) => (
                       <FormItem>
                         <FormLabel>Image</FormLabel>
                         <FormControl>
                           <Input
+                            id="picture"
                             type="file"
-                            {...fileRef}
-                            onChange={handleFileChange}
+                            {...field}
+                            // {...fieldProps}
+                            // type="file"
+                            // accept="image/*, application/pdf"
+                            // onChange={(event) =>
+                            //   onChange(
+                            //     event.target.files && event.target.files[0]
+                            //   )
+                            // }
                           />
                         </FormControl>
-
                         <FormDescription>
-                          This is your public display name.
+                          This your public display name.
                         </FormDescription>
-                        {previewImage && (
-                          <>
-                            <img
-                              src={previewImage}
-                              alt="Preview"
-                              className="w-30 h-30 object-cover"
-                            />
-                            <FormMessage>Selected file preview</FormMessage>
-                          </>
-                        )}
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+
                   <FormField
                     control={form.control}
                     name="amount"

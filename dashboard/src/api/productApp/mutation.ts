@@ -5,32 +5,40 @@ import axios from "axios";
 
 const URL = `http://localhost:3000`;
 
+// export const AddProductFn = async (payload: FormData): Promise<void> => {
+//   const response = await axios.post(`${URL}/productApp`, payload);
+
+//   return response.data;
+// };
+
+// export const useAddProduct = () => {
+//   const queryClient = useQueryClient();
+
+//   return useMutation({
+//     mutationKey: ["create-product"],
+//     mutationFn: (payload: FormData) => AddProductFn(payload),
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ["add-product"] });
+//     },
+//   });
+// };
+
 export const AddProductFn = async (
   payload: ProductAll
 ): Promise<AddProductPayload> => {
-  const response = await axios.post(`${URL}/productApp`, {
-    params: payload,
-  });
+  const response = await axios.post(`${URL}/productApp`, payload);
 
   return response.data;
 };
 
 export const useAddProduct = () => {
   const queryClient = useQueryClient();
-  const toast = useToast();
 
   return useMutation({
-    mutationKey: ["create-product"],
-    mutationFn: (payload: AddProductPayload) => AddProductFn({ payload }),
-    onSuccess: (res) => {
-      if (res.meta.success) {
-        toast({
-          title: "Success",
-        });
-        queryClient.invalidateQueries({ queryKey: ["add-product"] });
-      }
+    mutationKey: ["crete-product"],
+    mutationFn: (payload: AddProductPayload) => AddProductFn(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["add-product"] });
     },
   });
 };
-
-
