@@ -3,17 +3,22 @@ import { WebsiteUserAll } from "@/api/userList/type";
 
 export const columns: ColumnDef<WebsiteUserAll>[] = [
   {
+    accessorKey: "no",
+    header: "No",
+    cell: ({ row }) => <div>{row.index + 1}</div>,
+  },
+  {
     accessorKey: "name",
-    header: () => <div>Name</div>,
+    header: () => <div className="text-lg">Name</div>,
   },
 
   {
     accessorKey: "phone",
-    header: () => <div>Phone Number</div>,
+    header: () => <div className="text-lg">Phone Number</div>,
   },
 
   {
     accessorKey: "email",
-    header: () => <div>Email</div>,
+    header: () => <div className="text-lg">Email</div>,
   },
 ];

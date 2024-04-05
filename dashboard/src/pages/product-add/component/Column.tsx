@@ -18,9 +18,9 @@ const formatDate = (dateString) => {
 };
 export const columns: ColumnDef<ProductAll>[] = [
   {
-    accessorKey: "id",
-    header: "Id",
-    cell: ({ row }) => <div>{row.original.id}</div>,
+    accessorKey: "no",
+    header: "No",
+    cell: ({ row }) => <div>{row.index + 1}</div>,
   },
   {
     accessorKey: "name",
@@ -37,7 +37,7 @@ export const columns: ColumnDef<ProductAll>[] = [
             <img
               src={row.original.image}
               alt={row.original.name || "Image"}
-              style={{ borderRadius: "30px", width: "200px", height: "120px" }}
+              style={{ borderRadius: "30px", width: "200px", height: "130px" }}
             />
           </div>
         ) : (

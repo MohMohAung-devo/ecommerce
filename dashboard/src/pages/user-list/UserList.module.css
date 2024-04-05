@@ -1,0 +1,16 @@
+.UserListContainer {
+  width: 100%;
+}
+
+.headingList {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Search {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+}

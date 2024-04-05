@@ -1,3 +1,5 @@
+
+
 import {
   ColumnDef,
   flexRender,
@@ -14,11 +16,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import classes from "./Data-table.module.css";
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[] | undefined;
+  data: TData[];
 }
 
 export function DataTable<TData, TValue>({
@@ -33,18 +33,13 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="flex items-center justify-end space-x-2 py-4">
-      <Table className="space-x-2">
-        <TableHeader className={classes.Header}>
+      <Table>
+        <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead
-                    key={header.id}
-                    className={
-                      header.column.id === "name" ? classes.nameHeader : ""
-                    }
-                  >
+                  <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(

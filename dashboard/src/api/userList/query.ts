@@ -25,7 +25,6 @@ export const useAllUser = (payload: UserListPayload) => {
       return dataList.map((list: WebsiteUserAll) => ({
         name: list.name,
         phone: list.phone,
-        pasword: list.password,
         email: list.email,
       }));
     },

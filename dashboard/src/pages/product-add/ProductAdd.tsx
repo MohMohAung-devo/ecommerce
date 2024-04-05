@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { columns } from "@/pages/product-add/component/Column";
 import { DataTable } from "@/pages/product-add/component/Data-table";
 import classes from "./ProductAdd.module.css";
 import AddProduct from "@/pages/product-add/component/add-product";
 import { Button } from "@/components/ui/button";
 import { useAllProduct } from "@/api/productApp/query";
-import SearchComponemt from "@/pages/page-component/ButtonComponent";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -40,6 +38,10 @@ export const ProductAdd = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handleSearch = () => {
+    console.log("search", filterText);
+  };
+
   const indexOfLastItem = currentPage * itemPerPage;
   const indexOfFirstItem = indexOfLastItem - itemPerPage;
   const currentItems = filterData.slice(indexOfFirstItem, indexOfLastItem);
@@ -57,49 +59,45 @@ export const ProductAdd = () => {
                 value={filterText}
                 onChange={(e) => setFilterText(e.target.value)}
               />
-              <Button>Search</Button>
+              <Button onClick={handleSearch}>Search</Button>
             </div>
             <AddProduct />
           </div>
         </div>
       </div>
       <DataTable columns={columns} data={currentItems} />
-      {/* <Pagination
-        itemsPerPage={itemPerPage}
-        totalItems={filterData.length}
-        paginate={paginate}
-      /> */}
-
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={() => paginate(currentPage - 1)}
-              href="#"
-            />
-          </PaginationItem>
-
-          {Array.from({
-            length: Math.ceil(filterData.length / itemPerPage),
-          }).map((_, index) => (
-            <PaginationItem key={index}>
-              <PaginationLink
+      <div className={classes.PaginationContainer}>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => paginate(currentPage - 1)}
                 href="#"
-                isActive={index + 1 === currentPage}
-                onClick={() => paginate(index + 1)}
-              >
-                {index + 1}
-              </PaginationLink>
+              />
             </PaginationItem>
-          ))}
-          <PaginationItem>
-            <PaginationNext
-              onClick={() => paginate(currentPage + 1)}
-              href="#"
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+
+            {Array.from({
+              length: Math.ceil(filterData.length / itemPerPage),
+            }).map((_, index) => (
+              <PaginationItem key={index}>
+                <PaginationLink
+                  href="#"
+                  isActive={index + 1 === currentPage}
+                  onClick={() => paginate(index + 1)}
+                >
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => paginate(currentPage + 1)}
+                href="#"
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </div>
   );
 };
