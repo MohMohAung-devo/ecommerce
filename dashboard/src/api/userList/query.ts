@@ -26,6 +26,7 @@ export const useAllUser = (payload: UserListPayload) => {
         name: list.name,
         phone: list.phone,
         email: list.email,
+        isActive: list.isActive,
       }));
     },
   });

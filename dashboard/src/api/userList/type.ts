@@ -11,6 +11,7 @@ export interface WebsiteUserAll {
   name: string;
   phone: string;
   email: string;
+  isActive: boolean;
 }
 
 export interface Meta {
