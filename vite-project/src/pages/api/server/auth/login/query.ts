@@ -2,6 +2,7 @@ import { LoginPayload } from "@/pages/api/server/auth/login/type";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/pages/hook/useAuth";
 
 const URL = `http://localhost:3000`;
 
@@ -12,20 +13,23 @@ export const loginFn = async (payload: LoginPayload) => {
 
 export const useLogin = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   return useMutation({
     mutationFn: (payload: LoginPayload) => loginFn(payload),
     onSuccess: (data, { email, password }) => {
       if (data.meta.success) {
         const status = data.body.status;
-        navigate("", {
-          state: {
-            email,
-            password,
-            status,
-            code: data.body.code,
-          },
-        });
+        login({ email, password, status });
+        navigate("/");
+        // navigate("", {
+        //   state: {
+        //     email,
+        //     password,
+        //     status,
+        //     code: data.body.code,
+        //   },
+        // });
       }
     },
     onError: (error) => {
