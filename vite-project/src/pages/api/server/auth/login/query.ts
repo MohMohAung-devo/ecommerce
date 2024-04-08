@@ -21,15 +21,7 @@ export const useLogin = () => {
       if (data.meta.success) {
         const status = data.body.status;
         login({ email, password, status });
-        navigate("/");
-        // navigate("", {
-        //   state: {
-        //     email,
-        //     password,
-        //     status,
-        //     code: data.body.code,
-        //   },
-        // });
+        navigate("/home");
       }
     },
     onError: (error) => {

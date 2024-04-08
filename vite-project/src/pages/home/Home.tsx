@@ -10,19 +10,22 @@ import { FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa";
 import { FaAngleLeft } from "react-icons/fa";
+import { useAuth } from "@/pages/hook/useAuth";
 export const Home = () => {
   const { data } = useAllProduct();
   const navigate = useNavigate();
+  const { auth } = useAuth();
 
   console.log(data);
   const [next, setNext] = useState(0);
   const [count, setCount] = useState(0);
   const item = [Photo, Photo1, Photo2];
+  const [filterMenu, setFilterMenu] = useState("Women clothes");
 
   const handleBuying = () => {
-    const isAuthenicated = true;
+    // const isAuthenicated = true;
 
-    if (!isAuthenicated) {
+    if (!auth) {
       navigate("/login");
     } else {
       setCount(count + 1);
@@ -32,16 +35,26 @@ export const Home = () => {
   const dataItem = [
     { name: "Women clothes", image: Photo, price: 100 },
     { name: "Women clothes", image: Photo1, price: 100 },
-    { name: "Women clothes", image: Photo2, price: 100 },
+    { name: "Jwllery", image: Photo2, price: 100 },
     { name: "Women clothes", image: Photo, price: 100 },
     { name: "Women clothes", image: Photo1, price: 100 },
     { name: "Women clothes", image: Photo2, price: 100 },
-    { name: "Women clothes", image: Photo, price: 100 },
+    { name: "Man clothes", image: Photo, price: 100 },
     { name: "Women clothes", image: Photo1, price: 100 },
-    { name: "Women clothes", image: Photo2, price: 100 },
+    { name: "Cosmetic", image: Photo2, price: 100 },
     { name: "Women clothes", image: Photo, price: 100 },
   ];
 
+  const menuList = [
+    { name: "Women clothes" },
+    { name: "Man clothes" },
+    { name: "Cosmetic" },
+    { name: "Jwllery" },
+  ];
+
+  const handleMenu = (name: string) => {
+    setFilterMenu(name);
+  };
   const handleNext = () => {
     setNext((prev) => (prev + 1) % item.length);
   };
@@ -81,6 +94,7 @@ export const Home = () => {
       <div className={classes.ImageContainer}>
         <div className={classes.collectionList}>
           <h1 className="text-4xl">Collection</h1>
+
           <div className={classes.CartContainer}>
             <Input
               placeholder="Search..."
@@ -108,43 +122,66 @@ export const Home = () => {
             </Link>
           </div>
         </div>
-        <div className={classes.imageList}>
-          {dataItem.map((item) => (
-            <div className={classes.list}>
-              <p className={classes.listName}>{item.name}</p>
-              <img
-                src={item.image}
-                alt=""
-                style={{
-                  width: "350px",
-                  height: "200px",
-                  marginTop: "1rem",
-                  borderRadius: "10px",
-                }}
-              />
-              <div className={classes.priceButton}>
-                {" "}
-                <p>
-                  Price:
-                  {item.price}
-                  {""}ks
-                </p>
+        <div className={classes.menuItemList}>
+          <div className={classes.menu}>
+            {menuList.map((item) => (
+              <div>
                 <Button
-                  variant="outline"
+                  variant={"outline"}
                   style={{
+                    width: "150px",
+                    height: "40px",
                     borderRadius: "10px",
-                    width: "100px",
-                    backgroundColor: "#A3A7A4",
-                    color: "black",
-                    border: "1px solid #A3A7A4",
+                    backgroundColor: "#cecfcf",
+                    borderColor: "white",
                   }}
-                  onClick={handleBuying}
+                  onClick={() => handleMenu(item.name)}
                 >
-                  Buy
+                  {item.name}
                 </Button>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+        <div className={classes.imageList}>
+          {dataItem
+            .filter((menu) => menu.name === filterMenu)
+            .map((item, index) => (
+              <div className={classes.list} key={index}>
+                <p className={classes.listName}>{item.name}</p>
+                <img
+                  src={item.image}
+                  alt=""
+                  style={{
+                    width: "350px",
+                    height: "200px",
+                    marginTop: "1rem",
+                    borderRadius: "10px",
+                  }}
+                />
+                <div className={classes.priceButton}>
+                  {" "}
+                  <p>
+                    Price:
+                    {item.price}
+                    {""}ks
+                  </p>
+                  <Button
+                    variant="outline"
+                    style={{
+                      borderRadius: "10px",
+                      width: "100px",
+                      backgroundColor: "#A3A7A4",
+                      color: "black",
+                      border: "1px solid #A3A7A4",
+                    }}
+                    onClick={handleBuying}
+                  >
+                    Buy
+                  </Button>
+                </div>
+              </div>
+            ))}
         </div>
         <div className={classes.LoadmoreButton}>
           <Button

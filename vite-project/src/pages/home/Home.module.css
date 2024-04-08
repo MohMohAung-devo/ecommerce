@@ -66,6 +66,23 @@
   align-content: center;
   gap: 2rem;
 }
+
+.menuItemList {
+  width: 100%;
+  margin: auto;
+  color: black;
+  padding: 0 2rem;
+  height: 10vh;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  padding: 0 1rem;
+}
 .imageList {
   width: 100%;
   display: grid;
