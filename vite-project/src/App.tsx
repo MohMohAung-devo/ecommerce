@@ -11,23 +11,15 @@ import { useState } from "react";
 const queryClient = new QueryClient();
 function App() {
   const [isLoggin, setIsLoggin] = useState(false);
+  const isAuthenicated = true;
 
-  const handleLogin = () => {
-    setIsLoggin(true);
-  };
-
-  const handleLogout = () => {
-    setIsLoggin(false);
-  };
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        {isAuthenicated ? <Navbar /> : ""}
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-        </Routes>
-        <Navbar />
-        <Routes>
           <Route path="" element={<Home />} />
           <Route path="/detail-page" element={<DetailPage />} />
         </Routes>

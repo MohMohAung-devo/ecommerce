@@ -2,13 +2,17 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 mongoose.connect("mongodb://localhost:27017/ecommerce");
 const URL = `http://localhost:3000`;
 
 const multer = require("multer");
 const path = require("path");
-const { count } = require("console");
+const secretKey = "123456789";
+
+// const token = jwt.sign(payload, secretKey);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -32,6 +36,7 @@ const AddProductCreateSchema = new mongoose.Schema({
   name: String,
   price: Number,
   count: Number,
+  isActive: Boolean,
   image: {
     data: Buffer,
     contentType: String,
@@ -65,13 +70,16 @@ app.post("/websiteUser/register", async (req, res) => {
   try {
     const { name, phone, email, password, currentLocation } = req.body;
 
+    const hashPassword = await bcrypt.hash(password, 10);
+
     const registerUser = await RegisterWebsiteUserModel({
       _id: new mongoose.Types.ObjectId(),
       name,
       phone,
       email,
       currentLocation,
-      password,
+      password: hashPassword,
+      isActive: true,
     });
     await registerUser.save();
 
@@ -85,11 +93,67 @@ app.post("/websiteUser/register", async (req, res) => {
         email: registerUser.email,
         currentLocation: registerUser.currentLocation,
         password: registerUser.password,
+        // isActive: registerUser.isActive,
       },
     });
   } catch (err) {
     console.log(err);
     res.send(500).send("Internal Server Error");
+  }
+});
+
+// app.post("/websiteUser/login", async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     const user = await RegisterWebsiteUserModel.findOne({ email });
+
+//     if (!user) {
+//       return res
+//         .status(401)
+//         .json({ success: false, message: "User is inactive" });
+//     }
+
+//     const isPasswordValid = await bcrypt.compare(password, user.password);
+
+//     if (!isPasswordValid) {
+//       return res
+//         .status(401)
+//         .json({ success: false, message: "Inavlid email or password" });
+//     }
+
+//     const token = jwt.sign({ userId: user._id }, secretKey, {
+//       expireIn: "1h",
+//     });
+
+//     res.status(200).json({
+//       success: true,
+//       token,
+//       user: { name: user.name, email: user.email },
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ success: false, message: "Internal Server Error" });
+//   }
+// });
+
+app.post("/websiteUser/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const loginUser = await RegisterWebsiteUserModel.findOne({ email });
+    console.log(loginUser);
+
+    const isValidPassword = await bcrypt.compare(password, loginUser.password);
+    console.log(isValidPassword);
+
+    res.status(200).json({
+      success: true,
+      loginUser: { email: loginUser.email, password: loginUser.password },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 });
 

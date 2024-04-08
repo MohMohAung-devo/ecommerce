@@ -7,16 +7,27 @@ import { Button } from "@/components/ui/button";
 import { useAllProduct } from "@/pages/api/server/home/query";
 import { Input } from "@/components/ui/input";
 import { FaShoppingCart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa";
 import { FaAngleLeft } from "react-icons/fa";
 export const Home = () => {
-  const { data, isError } = useAllProduct();
+  const { data } = useAllProduct();
+  const navigate = useNavigate();
 
   console.log(data);
   const [next, setNext] = useState(0);
   const [count, setCount] = useState(0);
   const item = [Photo, Photo1, Photo2];
+
+  const handleBuying = () => {
+    const isAuthenicated = true;
+
+    if (!isAuthenicated) {
+      navigate("/login");
+    } else {
+      setCount(count + 1);
+    }
+  };
 
   const dataItem = [
     { name: "Women clothes", image: Photo, price: 100 },
@@ -39,11 +50,6 @@ export const Home = () => {
     setNext((prev) => (prev === 0 ? item.length - 1 : prev - 1));
   };
 
-  const handleCount = () => {
-    setCount(count + 1);
-  };
-  console.log(count);
-
   return (
     <div className={classes.Container}>
       <div className={classes.Home}>
@@ -57,27 +63,18 @@ export const Home = () => {
           }}
         ></div>
         <div className={classes.leftButton}>
-          {/* <Button onClick={handlePrevious} style={{ width: "100px" }}> */}
           <FaAngleLeft
             onClick={handlePrevious}
-            // size={30}
             color="white"
             className={classes.buttonIcons}
           />
-          {/* </Button> */}
         </div>
         <div className={classes.rightButton}>
-          {/* <Button
-            onClick={handleNext}
-            style={{ width: "100px", borderRadius: "10px" }}
-          > */}
-
           <FaAngleRight
             onClick={handleNext}
             color="white"
             className={classes.buttonIcons}
           />
-          {/* </Button> */}
         </div>
       </div>
 
@@ -141,7 +138,7 @@ export const Home = () => {
                     color: "black",
                     border: "1px solid #A3A7A4",
                   }}
-                  onClick={handleCount}
+                  onClick={handleBuying}
                 >
                   Buy
                 </Button>

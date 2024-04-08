@@ -17,7 +17,7 @@ export const useAllRegister = () => {
   return useMutation({
     // mutationKey: ["create-register"],
     mutationFn: (payload: RegisterPayload) => registerFn(payload),
-    onSuccess: (data, { name, phone, email, password, currentLocation }) => {
+    onSuccess: (data, { name, phone, email, currentLocation }) => {
       if (data.meta.success) {
         const status = data.body.status;
         navigate("/login", {
@@ -25,7 +25,6 @@ export const useAllRegister = () => {
             name,
             phone,
             email,
-            password,
             currentLocation,
             status,
             code: data.body.code,

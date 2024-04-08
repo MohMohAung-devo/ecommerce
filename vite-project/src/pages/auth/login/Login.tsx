@@ -2,6 +2,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import classes from "./Login.module.css";
+import { useLogin } from "@/pages/api/server/auth/login/query";
 import {
   Form,
   FormControl,
@@ -13,22 +14,27 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
 const formSchema = z.object({
-  name: z.string(),
-  phone: z.string(),
+  email: z.string().min(4, {
+    message: "Email must be required",
+  }),
+  password: z.string().min(6, {
+    message: "Password must be required",
+  }),
 });
 
 const Login = () => {
+  const login = useLogin();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      phone: "",
+      email: "",
+      password: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    login.mutate(values);
     console.log(values);
   }
   return (
@@ -43,13 +49,13 @@ const Login = () => {
             >
               <FormField
                 control={form.control}
-                name="name"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="name...."
+                        placeholder="email...."
                         {...field}
                         style={{
                           borderRadius: "10px",
@@ -68,13 +74,13 @@ const Login = () => {
 
               <FormField
                 control={form.control}
-                name="phone"
+                name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone</FormLabel>
+                    <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="phone..."
+                        placeholder="password..."
                         {...field}
                         style={{
                           borderRadius: "10px",
@@ -90,16 +96,15 @@ const Login = () => {
                   </FormItem>
                 )}
               />
-              <Link to="/">
-                <Button
-                  type="submit"
-                  variant="outline"
-                  className="bg-white"
-                  style={{ borderRadius: "10px" }}
-                >
-                  Submit
-                </Button>
-              </Link>
+
+              <Button
+                type="submit"
+                variant="outline"
+                className="bg-white"
+                style={{ borderRadius: "10px" }}
+              >
+                Submit
+              </Button>
             </form>
           </Form>
         </div>
