@@ -18,7 +18,7 @@ export const useLogin = () => {
     onSuccess: (data, { email, password }) => {
       if (data.meta.success) {
         const status = data.body.status;
-        navigate("/", {
+        navigate("", {
           state: {
             email,
             password,

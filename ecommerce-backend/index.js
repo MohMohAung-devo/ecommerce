@@ -147,9 +147,12 @@ app.post("/websiteUser/login", async (req, res) => {
     const isValidPassword = await bcrypt.compare(password, loginUser.password);
     console.log(isValidPassword);
 
+    const token = jwt.sign({ email: loginUser.email }, secretKey, {
+      expiresIn: "1h",
+    });
+
     res.status(200).json({
-      success: true,
-      loginUser: { email: loginUser.email, password: loginUser.password },
+      token,
     });
   } catch (err) {
     console.log(err);
