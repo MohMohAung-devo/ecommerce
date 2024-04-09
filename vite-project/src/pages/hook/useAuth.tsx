@@ -1,9 +1,11 @@
 import { useState } from "react";
+import Cookies from "js-cookie";
 
 interface User {
   email: string;
   password: string;
   status: boolean;
+  accessToken: string;
 }
 export const useAuth = () => {
   const [isAuthenicated, setIsAuthenicated] = useState(false);

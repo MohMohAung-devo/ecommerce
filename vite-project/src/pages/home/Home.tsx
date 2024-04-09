@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa";
 import { FaAngleLeft } from "react-icons/fa";
 import { useAuth } from "@/pages/hook/useAuth";
+import ProductDetail from "@/pages/home/detail/ProductDetail";
 export const Home = () => {
   const { data } = useAllProduct();
   const navigate = useNavigate();
@@ -30,9 +31,9 @@ export const Home = () => {
     }
   };
 
-  const handleCount = () => {
-    setCount(count + 1);
-  };
+  // const handleCount = () => {
+  //   setCount(count + 1);
+  // };
 
   const dataItem = [
     { name: "Women clothes", image: Photo, price: 100 },
@@ -199,6 +200,7 @@ export const Home = () => {
             Load more
           </Button>
         </div>
+      
       </div>
     </div>
   );
