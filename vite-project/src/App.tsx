@@ -8,19 +8,24 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
+import { useAuth } from "@/pages/hook/useAuth";
+import { useLocation } from "react-router-dom";
 const queryClient = new QueryClient();
 function App() {
   const [isLoggin, setIsLoggin] = useState(false);
-  const isAuthenicated = true;
+  const { isAuthenicated } = useAuth();
+
+  // const location = useLocation();
+  // const hideMenu = ["/register", "/login"];
 
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        {isAuthenicated ? <Navbar /> : ""}
+        <Navbar />
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/detail-page" element={<DetailPage />} />
         </Routes>
         <Footer />

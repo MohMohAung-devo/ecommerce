@@ -144,14 +144,27 @@ app.post("/websiteUser/login", async (req, res) => {
     const loginUser = await RegisterWebsiteUserModel.findOne({ email });
     console.log(loginUser);
 
+    if (!loginUser) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Email not fount" });
+    }
+
     const isValidPassword = await bcrypt.compare(password, loginUser.password);
     console.log(isValidPassword);
 
+    if (!isValidPassword) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid Password" });
+    }
+
     const token = jwt.sign({ email: loginUser.email }, secretKey, {
-      expiresIn: "1h",
+      expiresIn: "1day",
     });
 
     res.status(200).json({
+      success: true,
       token,
     });
   } catch (err) {

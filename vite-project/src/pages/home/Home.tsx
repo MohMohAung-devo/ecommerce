@@ -14,7 +14,7 @@ import { useAuth } from "@/pages/hook/useAuth";
 export const Home = () => {
   const { data } = useAllProduct();
   const navigate = useNavigate();
-  const { auth } = useAuth();
+  const { isAuthenicated } = useAuth();
 
   console.log(data);
   const [next, setNext] = useState(0);
@@ -23,13 +23,15 @@ export const Home = () => {
   const [filterMenu, setFilterMenu] = useState("Women clothes");
 
   const handleBuying = () => {
-    // const isAuthenicated = true;
-
-    if (!auth) {
+    if (!isAuthenicated) {
       navigate("/login");
     } else {
       setCount(count + 1);
     }
+  };
+
+  const handleCount = () => {
+    setCount(count + 1);
   };
 
   const dataItem = [

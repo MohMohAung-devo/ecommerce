@@ -13,12 +13,12 @@ export const registerFn = async (payload: RegisterPayload) => {
 
 export const useAllRegister = () => {
   const navigate = useNavigate();
-
   return useMutation({
     // mutationKey: ["create-register"],
     mutationFn: (payload: RegisterPayload) => registerFn(payload),
     onSuccess: (data, { name, phone, email, currentLocation }) => {
       if (data.meta.success) {
+        console.log(data);
         const status = data.body.status;
         navigate("/login", {
           state: {

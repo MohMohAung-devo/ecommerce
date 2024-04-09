@@ -35,7 +35,7 @@ const Login = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     login.mutate(values);
-    console.log(values);
+    // console.log(values);
   }
   return (
     <div className={classes.Container}>
