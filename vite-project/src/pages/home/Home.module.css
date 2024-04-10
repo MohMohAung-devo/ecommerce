@@ -59,7 +59,7 @@
   color: black;
   display: flex;
   margin-bottom: 2rem;
-  padding: 0 2rem;
+  /* padding: 0 2rem; */
   justify-content: space-between;
   justify-items: center;
   align-items: center;
@@ -71,7 +71,7 @@
   width: 100%;
   margin: auto;
   color: black;
-  padding: 0 2rem;
+  /* padding: 0 2rem; */
   height: 10vh;
 }
 
@@ -81,12 +81,12 @@
   justify-items: center;
   align-items: center;
   align-content: center;
-  padding: 0 1rem;
+  /* padding: 0 1rem; */
 }
 .imageList {
   width: 100%;
   display: grid;
-  grid-template-columns: 2fr 2fr 2fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 3rem;
   height: 100%;
 }
@@ -102,7 +102,7 @@
 }
 
 .list {
-  width: 400px;
+  width: 100%;
   height: 350px;
   border: 1px solid #cecfcf;
   color: black;
@@ -116,8 +116,17 @@
   color: white;
 }
 
+.homeImage {
+  width: 100%;
+  height: 200px;
+  margin-top: 1rem;
+  border-radius: 10px;
+}
+
 .listName {
   margin-top: 1rem;
+  font-weight: 600;
+  font-size: 20px;
 }
 .priceButton {
   display: flex;
@@ -135,3 +144,18 @@
   align-items: center;
   color: black;
 }
+
+@media screen and (max-width: 900px) {
+  .imageList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .imageList {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+

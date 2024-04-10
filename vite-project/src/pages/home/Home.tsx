@@ -157,12 +157,13 @@ export const Home = () => {
                   <img
                     src={item.image}
                     alt=""
-                    style={{
-                      width: "350px",
-                      height: "200px",
-                      marginTop: "1rem",
-                      borderRadius: "10px",
-                    }}
+                    // style={{
+                    //   width: "400px",
+                    //   height: "200px",
+                    //   marginTop: "1rem",
+                    //   borderRadius: "10px",
+                    // }}
+                    className={classes.homeImage}
                   />
                   <div className={classes.priceButton}>
                     {" "}
