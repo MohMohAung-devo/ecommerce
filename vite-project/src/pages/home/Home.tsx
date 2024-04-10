@@ -12,6 +12,7 @@ import { FaAngleRight } from "react-icons/fa";
 import { FaAngleLeft } from "react-icons/fa";
 import { useAuth } from "@/pages/hook/useAuth";
 import ProductDetail from "@/pages/home/detail/ProductDetail";
+import { ProductAll } from "@/pages/api/server/home/type";
 export const Home = () => {
   const { data } = useAllProduct();
   const navigate = useNavigate();
@@ -147,44 +148,45 @@ export const Home = () => {
           </div>
         </div>
         <div className={classes.imageList}>
-          {dataItem
-            .filter((menu) => menu.name === filterMenu)
-            .map((item, index) => (
-              <div className={classes.list} key={index}>
-                <p className={classes.listName}>{item.name}</p>
-                <img
-                  src={item.image}
-                  alt=""
-                  style={{
-                    width: "350px",
-                    height: "200px",
-                    marginTop: "1rem",
-                    borderRadius: "10px",
-                  }}
-                />
-                <div className={classes.priceButton}>
-                  {" "}
-                  <p>
-                    Price:
-                    {item.price}
-                    {""}ks
-                  </p>
-                  <Button
-                    variant="outline"
+          {data &&
+            data
+              .filter((menu: { name: string }) => menu.name === filterMenu)
+              .map((item: ProductAll, index: number) => (
+                <div className={classes.list} key={index}>
+                  <p className={classes.listName}>{item.name}</p>
+                  <img
+                    src={item.image}
+                    alt=""
                     style={{
+                      width: "350px",
+                      height: "200px",
+                      marginTop: "1rem",
                       borderRadius: "10px",
-                      width: "100px",
-                      backgroundColor: "#A3A7A4",
-                      color: "black",
-                      border: "1px solid #A3A7A4",
                     }}
-                    onClick={handleBuying}
-                  >
-                    Buy
-                  </Button>
+                  />
+                  <div className={classes.priceButton}>
+                    {" "}
+                    <p>
+                      Price:
+                      {item.price}
+                      {""}ks
+                    </p>
+                    <Button
+                      variant="outline"
+                      style={{
+                        borderRadius: "10px",
+                        width: "100px",
+                        backgroundColor: "#A3A7A4",
+                        color: "black",
+                        border: "1px solid #A3A7A4",
+                      }}
+                      onClick={handleBuying}
+                    >
+                      Buy
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
         </div>
         <div className={classes.LoadmoreButton}>
           <Button
@@ -200,7 +202,6 @@ export const Home = () => {
             Load more
           </Button>
         </div>
-      
       </div>
     </div>
   );
