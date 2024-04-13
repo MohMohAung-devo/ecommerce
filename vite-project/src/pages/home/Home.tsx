@@ -3,6 +3,9 @@ import classes from "./Home.module.css";
 import Photo from "../../../public/Photo.jpg";
 import Photo1 from "../../../public/Photo1.jpg";
 import Photo2 from "../../../public/Photo2.jpg";
+import Photo3 from "../../../public/Photo3.jpg";
+import Photo4 from "../../../public/Photo4.jpg";
+import Photo5 from "../../../public/Photo5.jpg";
 import { Button } from "@/components/ui/button";
 import { useAllProduct } from "@/pages/api/server/home/query";
 import { Input } from "@/components/ui/input";
@@ -21,7 +24,7 @@ export const Home = () => {
   console.log(data);
   const [next, setNext] = useState(0);
   const [count, setCount] = useState(0);
-  const item = [Photo, Photo1, Photo2];
+  const item = [Photo3, Photo4, Photo5];
   const [filterMenu, setFilterMenu] = useState("Women clothes");
 
   const handleBuying = () => {
@@ -53,7 +56,7 @@ export const Home = () => {
     { name: "Women clothes" },
     { name: "Man clothes" },
     { name: "Cosmetic" },
-    { name: "Jwllery" },
+    { name: "Jwellery" },
   ];
 
   const handleMenu = (name: string) => {
@@ -76,6 +79,7 @@ export const Home = () => {
             backgroundImage: `url(${item[next]})`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
             backgroundAttachment: "fixed",
           }}
         ></div>
@@ -129,20 +133,18 @@ export const Home = () => {
         <div className={classes.menuItemList}>
           <div className={classes.menu}>
             {menuList.map((item) => (
-              <div>
-                <Button
-                  variant={"outline"}
-                  style={{
-                    width: "150px",
-                    height: "40px",
-                    borderRadius: "10px",
-                    backgroundColor: "#cecfcf",
-                    borderColor: "white",
-                  }}
-                  onClick={() => handleMenu(item.name)}
-                >
-                  {item.name}
-                </Button>
+              <div
+                style={{
+                  // width: "150px",
+                  // height: "40px",
+                  // borderRadius: "10px",
+                  // backgroundColor: "#cecfcf",
+                  borderColor: "white",
+                  
+                }}
+                onClick={() => handleMenu(item.name)}
+              >
+                {item.name}
               </div>
             ))}
           </div>

@@ -60,9 +60,16 @@ const websiteCount = new mongoose.Schema({
   productList: { type: mongoose.Schema.Types.ObjectId, ref: "ecommerce" },
 });
 
+const addToCart = new mongoose.Schema({
+  _id: mongoose.Schema.Types.ObjectId,
+  quantity: Number,
+  productList: { type: mongoose.Schema.Types.ObjectId, ref: "ecommerce" },
+});
+
 const RegisterWebsiteUserModel = mongoose.model("websiteUser", websiteUser);
 const AddProductModel = mongoose.model("ecommerce", AddProductCreateSchema);
 const websiteCountModel = mongoose.model("count", websiteCount);
+const addToCartModel = mongoose.model("cart", addToCart);
 
 // website user //
 
@@ -184,15 +191,6 @@ app.get("/websiteUser/all", async (req, res) => {
         websiteUserAll,
       },
     });
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-app.post("/website/count", async (req, res) => {
-  try {
-    const productData = await AddProductModel.find();
-    console.log(productData);
   } catch (err) {
     console.log(err);
   }
@@ -327,6 +325,43 @@ app.get("/productAdd/all", async (req, res) => {
     });
   } catch (err) {
     console.log(err);
+  }
+});
+
+app.post("/productAdd/:id", async (req, res) => {
+  try {
+    const { quantity } = req.body;
+    const productId = req.params.id;
+
+    // const product = await AddProductModel.find();
+    // console.log(product);
+
+    const addToProduct = await AddProductModel.findById({
+      productId,
+    });
+
+    if (!addToProduct) {
+      return res.status(404).json({
+        meta: { success: false, message: "Product not found" },
+      });
+    }
+
+    const addToCartProduct = new addToCartModel({
+      quantity,
+    });
+
+    await addToCartProduct.save();
+
+    res.status(201).json({
+      meta: { success: true, message: "Add to cart successfully" },
+      body: {
+        id: addToCartProduct.productId,
+        quantity: addToCartProduct.quantity,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Internal Server Error");
   }
 });
 
