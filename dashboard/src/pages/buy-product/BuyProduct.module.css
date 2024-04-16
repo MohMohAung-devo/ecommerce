@@ -1,0 +1,16 @@
+.sellContainer {
+  width: 100%;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Search {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+}

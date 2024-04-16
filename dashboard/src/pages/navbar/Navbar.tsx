@@ -13,7 +13,7 @@ export const Navbar = () => {
       link: "/user-list",
     },
     {
-      name: "Buy Product",
+      name: "Sell Product",
       link: "/buy-product",
     },
     {
