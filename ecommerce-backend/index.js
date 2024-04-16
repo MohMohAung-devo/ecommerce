@@ -315,7 +315,7 @@ app.delete("/product/delte/:id", async (req, res) => {
 app.get("/productAdd/all", async (req, res) => {
   try {
     const productAll = await AddProductModel.find();
-    console.log(productAll);
+    // console.log(productAll);
 
     return res.status(200).json({
       meta: { success: true, message: "Attend fetch all successfully" },
