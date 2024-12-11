@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { WebsiteUserAll } from "@/api/userList/type";
-import { Button } from "@/components/ui/button";
+//import { Button } from "@/components/ui/button";
 
 export const columns: ColumnDef<WebsiteUserAll>[] = [
   {

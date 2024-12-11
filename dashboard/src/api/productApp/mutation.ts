@@ -35,7 +35,7 @@ export const useAddProduct = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ["crete-product"],
+    mutationKey: ["create-product"],
     mutationFn: (payload: AddProductPayload) => AddProductFn(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["add-product"] });

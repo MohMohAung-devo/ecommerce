@@ -56,33 +56,64 @@ const AddProduct = () => {
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
-  const uploadImage = async () => {
-    if (selectedImage) {
+  // const uploadImage = async () => {
+  //   if (selectedImage) {
+  //     const formData = new FormData();
+  //     formData.append("image", selectedImage);
+
+  //     //   try {
+  //     //     const response = await fetch("http://localhost:5000/upload", {
+  //     //       method: "POST",
+  //     //       body: formData,
+  //     //     });
+  //     //     if (response.ok) {
+  //     //       console.log("Image uploaded successfully");
+  //     //     } else {
+  //     //       console.error("Failed to upload image");
+  //     //     }
+  //     //   } catch (error) {
+  //     //     console.error("Error uploading image:", error);
+  //     //   }
+  //   }
+  // };
+
+  const uploadImage = async (image: File | null) => {
+    if (image) {
       const formData = new FormData();
-      formData.append("image", selectedImage);
+      formData.append("image", image);
 
       try {
-        const response = await fetch("http://localhost:5000/upload", {
+        const response = await fetch("http://localhost:3000/productApp", {
           method: "POST",
           body: formData,
         });
         if (response.ok) {
-          console.log("Image uploaded successfully");
+          const data = await response.json();
+          return data.imageUrl; // Return the uploaded image URL
         } else {
-          console.error("Failed to upload image");
+          throw new Error("Failed to upload image");
         }
       } catch (error) {
-        console.error("Error uploading image:", error);
+        throw new Error("Error uploading image: " + error.message);
       }
+    } else {
+      throw new Error("No image selected");
     }
   };
 
-  // function onSubmit(values: z.infer<typeof formSchema>) {
-  //   // addProduct.mutate(values);
+  function submit(values: z.infer<typeof formSchema>) {
+    addProduct.mutate(values);
+  }
 
-  //   uploadImage(values);
-  //   console.log(values);
-  // }
+  // const handleSubmit = async () => {
+  //   try {
+  //     const imageUrl = await uploadImage(selectedImage);
+  //     submit({ values, ...form.getValues(), image: imageUrl }); // Update form values with image URL
+  //   } catch (error) {
+  //     console.error("Error uploading image:", error);
+  //   }
+  // };
+
   return (
     <>
       <div className={classes.Container}>
@@ -99,7 +130,7 @@ const AddProduct = () => {
             <div>
               <Form {...form}>
                 <form
-                  onSubmit={form.handleSubmit(uploadImage)}
+                  onSubmit={form.handleSubmit(submit)}
                   className="grid gap-4 py-2"
                 >
                   <FormField
@@ -127,7 +158,7 @@ const AddProduct = () => {
                       <FormItem>
                         <FormLabel>Image</FormLabel>
                         <FormControl>
-                          <Input
+                          {/* <Input
                             id="picture"
                             type="file"
                             {...field}
@@ -139,6 +170,19 @@ const AddProduct = () => {
                             //     event.target.files && event.target.files[0]
                             //   )
                             // }
+                          /> */}
+
+                          <Input
+                            id="picture"
+                            type="file"
+                            onChange={(
+                              event: ChangeEvent<HTMLInputElement>
+                            ) => {
+                              if (event.target.files) {
+                                setSelectedImage(event.target.files[0]);
+                              }
+                              field.onChange(event);
+                            }}
                           />
                         </FormControl>
                         <FormDescription>

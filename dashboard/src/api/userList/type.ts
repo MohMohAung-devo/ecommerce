@@ -12,6 +12,7 @@ export interface WebsiteUserAll {
   phone: string;
   email: string;
   isActive: boolean;
+  
 }
 
 export interface Meta {

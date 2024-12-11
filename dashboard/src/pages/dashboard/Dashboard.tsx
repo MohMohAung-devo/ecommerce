@@ -45,7 +45,7 @@ const Dashboard = () => {
             <PieChart
               data={[
                 { title: "Active User", value: 10, color: "#FFFFFF" },
-                { title: "All User", value: 15, color: "#34a1eb" },
+                { title: "All User", value: 15, color: "#A3A7A4" },
               ]}
               label={(data) => data.dataEntry.title}
               labelPosition={50}
@@ -58,7 +58,7 @@ const Dashboard = () => {
             <PieChart
               data={[
                 { title: "Product", value: 40, color: "#FFFFFF" },
-                { title: "Sell Product ", value: 15, color: "#34a1eb" },
+                { title: "Sell Product ", value: 15, color: "#A3A7A4" },
               ]}
               label={(data) => data.dataEntry.title}
               labelPosition={50}
@@ -71,7 +71,7 @@ const Dashboard = () => {
             <PieChart
               data={[
                 { title: "Buy Product User ", value: 10, color: "#FFFFFF" },
-                { title: "All User", value: 30, color: "#34a1eb" },
+                { title: "All User", value: 30, color: "#A3A7A4" },
               ]}
               label={(data) => data.dataEntry.title}
               labelPosition={50}
@@ -95,7 +95,7 @@ const Dashboard = () => {
               <Tooltip />
               <Legend />
               <Bar dataKey="registerUser" fill="#FFFFFF" />
-              <Bar dataKey="Product" fill="#34a1eb" />
+              <Bar dataKey="Product" fill="#A3A7A4" />
             </BarChart>
           </div>
         </div>

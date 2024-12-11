@@ -1,14 +1,14 @@
-.container{
-    width: 250px;
-    background-color: #34a1eb;
-    margin: auto;
-    height: 50px;
-    display: flex;
-    justify-content: space-between;
-    justify-items: center;
-    align-items: center;
-    padding: 0 1rem;
-    border-radius: 20px;
-    cursor: pointer;
-    text-decoration: none;
+.container {
+  width: 250px;
+  background-color: #a3a7a4;
+  margin: auto;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+  align-items: center;
+  padding: 0 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  text-decoration: none;
 }
