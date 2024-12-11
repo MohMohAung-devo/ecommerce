@@ -1,0 +1,37 @@
+.Col1 {
+  width: 100%;
+  height: 100vh;
+}
+
+.Col2 {
+  width: 80%;
+  height: 90vh;
+  margin: auto;
+  padding: 2rem;
+}
+
+.Coltext1 {
+  color: black;
+  font-size: 1.5rem;
+}
+
+.Col3 {
+  height: 40vh;
+  color: black;
+  margin-top: 3rem;
+}
+.textCol1 {
+  display: flex;
+  gap: 2rem;
+}
+
+.imageCol1 {
+  height: 400px;
+}
+
+.ColText {
+  font-size: 20px;
+  text-align: center;
+  align-items: center;
+  padding: 2rem;
+}

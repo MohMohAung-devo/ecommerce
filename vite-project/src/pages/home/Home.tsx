@@ -17,9 +17,17 @@ import { useAuth } from "@/pages/hook/useAuth";
 import ProductDetail from "@/pages/home/detail/ProductDetail";
 import { ProductAll } from "@/pages/api/server/home/type";
 export const Home = () => {
-  const { data } = useAllProduct();
+  const { data, isError } = useAllProduct();
   const navigate = useNavigate();
   const { isAuthenicated } = useAuth();
+
+  // if (!data) {
+  //   <div>No data.....</div>;
+  // }
+
+  // if (isError) {
+  //   <div>Loading.....</div>;
+  // }
 
   console.log(data);
   const [next, setNext] = useState(0);
@@ -38,6 +46,14 @@ export const Home = () => {
   // const handleCount = () => {
   //   setCount(count + 1);
   // };
+
+  // if (isError) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // if (!data) {
+  //   return <div>No data available</div>;
+  // }
 
   const dataItem = [
     { name: "Women clothes", image: Photo, price: 100 },
@@ -69,6 +85,8 @@ export const Home = () => {
   const handlePrevious = () => {
     setNext((prev) => (prev === 0 ? item.length - 1 : prev - 1));
   };
+
+
 
   return (
     <div className={classes.Container}>
@@ -140,7 +158,6 @@ export const Home = () => {
                   // borderRadius: "10px",
                   // backgroundColor: "#cecfcf",
                   borderColor: "white",
-                  
                 }}
                 onClick={() => handleMenu(item.name)}
               >
@@ -149,7 +166,7 @@ export const Home = () => {
             ))}
           </div>
         </div>
-        <div className={classes.imageList}>
+        {/* <div className={classes.imageList}>
           {data &&
             data
               .filter((menu: { name: string }) => menu.name === filterMenu)
@@ -190,6 +207,46 @@ export const Home = () => {
                   </div>
                 </div>
               ))}
+        </div> */}
+
+        <div className={classes.imageList}>
+          {dataItem.map((item, index) => (
+            <div className={classes.list} key={index}>
+              <p className={classes.listName}>{item.name}</p>
+              <img
+                src={item.image}
+                alt=""
+                // style={{
+                //   width: "400px",
+                //   height: "200px",
+                //   marginTop: "1rem",
+                //   borderRadius: "10px",
+                // }}
+                className={classes.homeImage}
+              />
+              <div className={classes.priceButton}>
+                {" "}
+                <p>
+                  Price:
+                  {item.price}
+                  {""}ks
+                </p>
+                <Button
+                  variant="outline"
+                  style={{
+                    borderRadius: "10px",
+                    width: "100px",
+                    backgroundColor: "#A3A7A4",
+                    color: "black",
+                    border: "1px solid #A3A7A4",
+                  }}
+                  onClick={handleBuying}
+                >
+                  Buy
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
         <div className={classes.LoadmoreButton}>
           <Button
