@@ -1,4 +1,5 @@
 const User = require("../models/user");
+//mptnet
 const jwt = require("jsonwebtoken");
 const { expressjwt } = require("express-jwt");
 
@@ -44,6 +45,13 @@ exports.signin = async (req, res) => {
     const { _id, name, email: userEmail, role } = user;
 
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+
+    res.cookies("t", token, { expire: new Date() + 9999 });
+
+    return res.json({
+      token,
+      user: { _id, name, email: userEmail, role },
+    });
   } catch (err) {
     console.log("Request Body:", req.body);
     return res.status(500).json({
