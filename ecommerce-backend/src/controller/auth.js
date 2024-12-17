@@ -2,6 +2,7 @@ const User = require("../models/user");
 //mptnet
 const jwt = require("jsonwebtoken");
 const { expressjwt } = require("express-jwt");
+const { error } = require("console");
 
 exports.signup = async (req, res) => {
   console.log("req.body", req.body);
@@ -58,4 +59,37 @@ exports.signin = async (req, res) => {
       error: "Somethin went wrong. Please try again latter",
     });
   }
+};
+
+exports.signou = async (req, res) => {
+  res.clearCookie("t");
+  res.json({ message: "Signout success" });
+};
+
+exports.requireSignin = expressjwt({
+  secret: process.env.JWT_SECRET,
+  algorithms: ["HS256"],
+  userProperty: "auth",
+});
+
+exports.isAuth = (req, res, next) => {
+  let user = req.profile && req.auth && req.profile._id == req.auth._id;
+
+  if (!user) {
+    return res.status(403).json({
+      error: "Access denied",
+    });
+  }
+
+  next();
+};
+
+exports.isAdmin = (req, res, next) => {
+  if (res.profile.role === 0) {
+    return res.status(403).json({
+      error: "Admin resourse! Access denied",
+    });
+  }
+
+  next();
 };
