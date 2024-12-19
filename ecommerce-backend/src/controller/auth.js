@@ -2,7 +2,7 @@ const User = require("../models/user");
 //mptnet
 const jwt = require("jsonwebtoken");
 const { expressjwt } = require("express-jwt");
-const { error } = require("console");
+const { errorHandler } = require("../helper/dbhandlerError");
 
 exports.signup = async (req, res) => {
   console.log("req.body", req.body);
@@ -17,7 +17,7 @@ exports.signup = async (req, res) => {
     res.status(201).json({ message: "User signed up successfully" });
   } catch (err) {
     return res.status(400).json({
-      err: errorHander(err),
+      err: errorHandler(err),
     });
   }
 };
@@ -37,7 +37,7 @@ exports.signin = async (req, res) => {
       });
     }
 
-    if (!user.authenticated(password)) {
+    if (!user.authenticate(password)) {
       return res.status(401).json({
         error: "Email and password do not match",
       });
@@ -47,7 +47,7 @@ exports.signin = async (req, res) => {
 
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
 
-    res.cookies("t", token, { expire: new Date() + 9999 });
+    res.cookie("t", token, { expire: new Date() + 9999 });
 
     return res.json({
       token,
@@ -55,13 +55,14 @@ exports.signin = async (req, res) => {
     });
   } catch (err) {
     console.log("Request Body:", req.body);
+    console.error("signin Error :", err.stack);
     return res.status(500).json({
       error: "Somethin went wrong. Please try again latter",
     });
   }
 };
 
-exports.signou = async (req, res) => {
+exports.signout = async (req, res) => {
   res.clearCookie("t");
   res.json({ message: "Signout success" });
 };

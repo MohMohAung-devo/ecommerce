@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: true,
-    unique: 32,
+    unique: true,
   },
   hash_password: {
     type: String,
@@ -61,7 +61,9 @@ userSchema.methods = {
         .update(password)
         .digest("hex");
     } catch (err) {
-      return "";
+      // return "";
+      console.error("Error encrypting password:", err);
+      throw new Error("Error encrypting password");
     }
   },
 };
