@@ -11,6 +11,7 @@ const autheRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 
 const categoryRoutes = require("./routes/category");
+const productRoutes = require("./routes/product");
 
 // mongoose
 //   .connect(process.env.DATABASE, {
@@ -36,6 +37,7 @@ app.use(express.json());
 app.use("/api", autheRoutes);
 app.use("/api", userRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", productRoutes);
 
 // app.get("/hello", (req, res) => {
 //   res.send("hello from code");
