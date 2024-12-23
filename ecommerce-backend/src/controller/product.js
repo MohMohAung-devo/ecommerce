@@ -7,7 +7,7 @@ const { errorHandler } = require("../helper/dbhandlerError");
 exports.create = async (req, res) => {
   try {
     const form = new formidable.IncomingForm();
-    form.keepExtension = true;
+    form.keepExtensions = true;
     form.parse(req, async (err, files, fields) => {
       if (err) {
         return res.status(400).json({
@@ -15,12 +15,12 @@ exports.create = async (req, res) => {
         });
       }
 
-      console.log("Fields", fields);
-      console.log("Files", files);
+      // console.log("Fields", fields);
+      // console.log("Files", files);
 
-      let product = new Product(files);
+      let product = new Product(fields);
 
-      if (!files.photo || files.photo.length === 0) {
+      if (!files.photo) {
         return res.status(400).json({
           error: "No image file was uploded",
         });
@@ -33,9 +33,11 @@ exports.create = async (req, res) => {
           });
         }
 
-        product.photo.data = fs.readFileSync(files.photo.filepaht);
+        product.photo.data = fs.readFileSync(files.photo.filepath);
         product.photo.contentType = files.photo.mimetype;
       }
+
+      console.log("File Path", files.photo.filepath);
 
       //   product.save((err, result) => {
       //     if (err) {
