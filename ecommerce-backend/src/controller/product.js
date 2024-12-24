@@ -15,9 +15,6 @@ exports.create = async (req, res) => {
         });
       }
 
-      // console.log("Fields", fields);
-      // console.log("Files", files);
-
       let product = new Product(fields);
 
       if (!files.photo) {
