@@ -11,40 +11,51 @@ exports.create = async (req, res) => {
     form.parse(req, async (err, files, fields) => {
       if (err) {
         return res.status(400).json({
-          error: "Image could not be uploaded",
+          error: "No image file uploaded",
         });
       }
+
+      console.log("fields", fields);
+      console.log("Files", files);
 
       let product = new Product(fields);
 
-      if (!files.photo) {
-        return res.status(400).json({
-          error: "No image file was uploded",
-        });
-      }
+      // if (!files.photo || !files.photo.filepath) {
+      //   return res.status(400).json({
+      //     error: "No images file uploaded",
+      //   });
+      // }
 
-      if (files.photo) {
+      // const filepath = files.photo.filepath;
+      // console.log("file path", filepath);
+      // if (files.photo) {
+      //   console.log("File photo", files.photo);
+      //   if (files.photo.size > 1000000) {
+      //     return res.status(400).json({
+      //       error: "Image should be less 1mb in size",
+      //     });
+      //   }
+
+      //   product.photo.data = fs.readFileSync(files.photo.filepath);
+      //   product.photo.contentType = files.photo.mimetype;
+      // }
+
+      // console.log("File Path", files.photo.filepath);
+
+      if (!files.photo) {
+        console.error("No photo uploaded");
+      } else {
         if (files.photo.size > 1000000) {
           return res.status(400).json({
-            error: "Image should be less 1mb in size",
+            error: "Image should be less 1mb size",
           });
         }
 
-        product.photo.data = fs.readFileSync(files.photo.filepath);
-        product.photo.contentType = files.photo.mimetype;
+        product.photo.data = fs.readFileSync(files.photo.files);
+        product.photo.contentType = files.photo.files;
       }
 
-      console.log("File Path", files.photo.filepath);
-
-      //   product.save((err, result) => {
-      //     if (err) {
-      //       return res.status(400).json({
-      //         error: errorHandler(err),
-      //       });
-      //     }
-
-      //     res.json(result);
-      //   });
+      console.log("File Path", files.photo?.files);
 
       try {
         const result = await product.save();
