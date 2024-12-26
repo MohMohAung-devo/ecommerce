@@ -20,28 +20,6 @@ exports.create = async (req, res) => {
 
       let product = new Product(fields);
 
-      // if (!files.photo || !files.photo.filepath) {
-      //   return res.status(400).json({
-      //     error: "No images file uploaded",
-      //   });
-      // }
-
-      // const filepath = files.photo.filepath;
-      // console.log("file path", filepath);
-      // if (files.photo) {
-      //   console.log("File photo", files.photo);
-      //   if (files.photo.size > 1000000) {
-      //     return res.status(400).json({
-      //       error: "Image should be less 1mb in size",
-      //     });
-      //   }
-
-      //   product.photo.data = fs.readFileSync(files.photo.filepath);
-      //   product.photo.contentType = files.photo.mimetype;
-      // }
-
-      // console.log("File Path", files.photo.filepath);
-
       if (!files.photo) {
         console.error("No photo uploaded");
       } else {
