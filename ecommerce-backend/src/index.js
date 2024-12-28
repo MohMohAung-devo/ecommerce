@@ -33,6 +33,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", autheRoutes);
 app.use("/api", userRoutes);

@@ -11,7 +11,7 @@ exports.create = async (req, res) => {
     form.parse(req, async (err, files, fields) => {
       if (err) {
         return res.status(400).json({
-          error: "No image file uploaded",
+          error: "Form data parsing error",
         });
       }
 
@@ -19,23 +19,49 @@ exports.create = async (req, res) => {
       console.log("Files", files);
 
       let product = new Product(fields);
+      //let photo = files.photo;
+      //const photoArray = files.photo;
+      //const photo = Array.isArray(photoArray) ? photoArray[0] : photoArray;
 
-      if (!files.photo) {
-        console.error("No photo uploaded");
-      } else {
-        if (files.photo.size > 1000000) {
-          return res.status(400).json({
-            error: "Image should be less 1mb size",
-          });
-        }
+      // if (Array.isArray(photo)) {
+      //   photo = photo[0];
+      // }
+      let photo = Array.isArray(files.photo) ? files.photo[0] : files.photo;
 
-        product.photo.data = fs.readFileSync(files.photo.files);
-        product.photo.contentType = files.photo.files;
+      if (!photo) {
+        console.log("No photo detected in uploaded files");
+        return res.status(400).json({
+          error: "No photo uploaded",
+        });
       }
 
-      console.log("File Path", files.photo?.files);
+      console.log("Photo details", photo);
+
+      // if (files.photo && files.photo.length > 0) {
+      //   photo = files.photo[0];
+      // } else {
+      //   photo = files.photo;
+      // }
+
+      // if (!photo) {
+      //   console.log("No photo detected in uploaded files.");
+      //   return res.status(400).json({
+      //     error: console.log(err),
+      //   });
+      // }
+      // console.log("Photo details", photo);
+
+      if (photo.size > 1000000) {
+        return res.status(400).json({
+          error: "Image should be less than 1mb size",
+        });
+      }
+
+      //console.log("File Path", files.photo?.files);
 
       try {
+        product.photo.data = fs.readFileSync(photo.filepath);
+        product.photo.contentType = photo.mimetype;
         const result = await product.save();
         res.json(result);
       } catch (err) {
@@ -48,3 +74,4 @@ exports.create = async (req, res) => {
     console.error(err);
   }
 };
+
