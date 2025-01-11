@@ -86,8 +86,6 @@ export const Home = () => {
     setNext((prev) => (prev === 0 ? item.length - 1 : prev - 1));
   };
 
-
-
   return (
     <div className={classes.Container}>
       <div className={classes.Home}>
@@ -212,7 +210,12 @@ export const Home = () => {
         <div className={classes.imageList}>
           {dataItem.map((item, index) => (
             <div className={classes.list} key={index}>
-              <p className={classes.listName}>{item.name}</p>
+              <div className={classes.titleList}>
+                {" "}
+                <p className={classes.listName}>{item.name}</p>
+                <button className={classes.detailTitle}>Detail</button>
+              </div>
+
               <img
                 src={item.image}
                 alt=""
