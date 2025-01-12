@@ -8,7 +8,7 @@ import DetailPage from "@/pages/home/detail/ProductDetail";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import CartList from "@/pages/cart-list/CartList";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/detail" element={<DetailPage />} />
+          <Route path="/buy-cart-list" element={<CartList />} />
         </Routes>
         <Footer />
       </BrowserRouter>

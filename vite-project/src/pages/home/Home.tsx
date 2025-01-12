@@ -34,7 +34,7 @@ export const Home = () => {
   const [count, setCount] = useState(0);
   const item = [Photo3, Photo4, Photo5];
   const [filterMenu, setFilterMenu] = useState("Women clothes");
-
+  const [detail, setDetail] = useState();
   const handleBuying = () => {
     if (!isAuthenicated) {
       navigate("/login");
@@ -129,7 +129,7 @@ export const Home = () => {
                 border: "1px solid #A3A7A4",
               }}
             />
-            <Link to="/detail-page">
+            <Link to="/buy-cart-list">
               <div style={{ cursor: "pointer" }}>
                 <FaShoppingCart size={32} color="#A3A7A4" />
                 <p
@@ -213,7 +213,9 @@ export const Home = () => {
               <div className={classes.titleList}>
                 {" "}
                 <p className={classes.listName}>{item.name}</p>
-                <button className={classes.detailTitle}>Detail</button>
+                <Link className={classes.detailTitle} to="/detail">
+                  Detail
+                </Link>
               </div>
 
               <img
