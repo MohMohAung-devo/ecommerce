@@ -76,15 +76,25 @@ const CartList = () => {
         <div className={classes.Col2}>
           {dataItem.map((item) => (
             <div className={classes.list}>
-              <p>{item.name}</p>
+              <div className={classes.detail}>
+                {" "}
+                <p className={classes.productName}>{item.name}</p>
+                <button className={classes.productButton}>
+                  Product Detail
+                </button>
+              </div>
+
               <img
                 src={item.image}
                 alt=""
-                style={{ width: "100%", height: "80%" }}
+                style={{ width: "100%", height: "70%", borderRadius: "10px" }}
               />
               <p>Price - {item.price}$</p>
-              <p>{item.count}</p>
-              <p>{item.totalPrice}</p>
+              <div className={classes.priceList}>
+                {" "}
+                <p>Total Count - {item.count}</p>
+                <p>Total Price - {item.totalPrice}$</p>
+              </div>
             </div>
           ))}
         </div>

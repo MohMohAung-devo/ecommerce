@@ -1,6 +1,7 @@
 .mainDiv {
   width: 100%;
   height: 100%;
+  font-family: sans-serif;
 }
 .Col1 {
   width: 80%;
@@ -16,6 +17,7 @@
   text-align: center;
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  font-weight: 500;
 }
 .Col2 {
   width: 100%;
@@ -28,7 +30,34 @@
 }
 
 .list {
-  width: 80%;
-  height: 300px;
+  width: 100%;
+  height: 350px;
   border: 1px solid gray;
+  padding: 1rem;
+  border-radius: 20px;
+}
+
+.detail {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.productName {
+  font-size: 18px;
+  /* margin-bottom: 8px; */
+}
+
+.productButton {
+  border: 1px solid gray;
+  padding: 4px;
+  font-size: 14px;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+}
+
+.priceList {
+  display: flex;
+  justify-content: space-between;
 }
