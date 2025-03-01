@@ -43,18 +43,6 @@ export const Home = () => {
     }
   };
 
-  // const handleCount = () => {
-  //   setCount(count + 1);
-  // };
-
-  // if (isError) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (!data) {
-  //   return <div>No data available</div>;
-  // }
-
   const dataItem = [
     { name: "Women clothes", image: Photo, price: 100 },
     { name: "Women clothes", image: Photo1, price: 100 },
@@ -84,6 +72,10 @@ export const Home = () => {
 
   const handlePrevious = () => {
     setNext((prev) => (prev === 0 ? item.length - 1 : prev - 1));
+  };
+
+  const handleDetail = (index: number) => {
+    setDetail(index);
   };
 
   return (
@@ -209,7 +201,11 @@ export const Home = () => {
 
         <div className={classes.imageList}>
           {dataItem.map((item, index) => (
-            <div className={classes.list} key={index}>
+            <div
+              className={classes.list}
+              key={index}
+              onClick={() => handleDetail(index)}
+            >
               <div className={classes.titleList}>
                 {" "}
                 <p className={classes.listName}>{item.name}</p>

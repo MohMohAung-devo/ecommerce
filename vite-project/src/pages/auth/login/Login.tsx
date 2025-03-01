@@ -40,7 +40,7 @@ const Login = () => {
   return (
     <div className={classes.Container}>
       <div className={classes.RegisterContainer}>
-        <h1 className="text-black text-3xl mt-10">Register</h1>
+        <h1 className="text-black text-3xl mt-10">Login</h1>
         <div className={classes.form}>
           <Form {...form}>
             <form
