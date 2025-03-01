@@ -9,7 +9,7 @@
 
 .RegisterContainer {
   width: 80%;
-  height: 80vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -17,11 +17,12 @@
   justify-items: center;
   align-items: center;
   align-content: center;
+  
 }
 
 .form {
   width: 40%;
-  height: 100vh;
+  height: 80vh;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -33,4 +34,5 @@
   color: black;
   padding: 3rem;
   border-radius: 10px;
+  margin-top: 1rem;
 }
