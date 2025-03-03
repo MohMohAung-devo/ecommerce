@@ -14,37 +14,51 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAllRegister } from "@/pages/api/server/auth/register/query";
+import { useContext, useState } from "react";
+import { AuthContext } from "@/pages/api/server/auth/auth";
+import { useNavigate } from "react-router-dom";
 const formSchema = z.object({
   name: z.string().min(4, {
     message: "UserName must be required",
   }),
-  phone: z.string().min(11, {
-    message: "Phone number must be required",
-  }),
+  // phone: z.string().min(11, {
+  //   message: "Phone number must be required",
+  // }),
   email: z.string(),
   password: z.string().min(6, {
     message: "Password must be required",
   }),
-  currentLocation: z.string().min(6, {
-    message: "Location must be required",
-  }),
+  // currentLocation: z.string().min(6, {
+  //   message: "Location must be required",
+  // }),
 });
 
 const Register = () => {
+  const authContext = useContext(AuthContext);
   const register = useAllRegister();
+  const navigate = useNavigate();
+  const [user, setUser] = useState(true);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      phone: "",
+      // phone: "",
       email: "",
       password: "",
-      currentLocation: "",
+      // currentLocation: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    setUser(true);
     register.mutate(values);
+    // register.mutate(values, {
+    //   onSuccess: (data) => {
+    //     console.log("Register full", data);
+    //     authContext?.login(data.user);
+    //     navigate("/");
+    //   },
+    // });
     console.log(values);
   }
   return (
@@ -77,12 +91,12 @@ const Register = () => {
                     <FormDescription>
                       This is your public display name.
                     </FormDescription>
-                    <FormMessage />
+                    <FormMessage style={{ color: "red" }} />
                   </FormItem>
                 )}
               />
 
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
@@ -105,7 +119,7 @@ const Register = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
               <FormField
                 control={form.control}
                 name="email"
@@ -126,7 +140,7 @@ const Register = () => {
                     <FormDescription>
                       This is your public display name.
                     </FormDescription>
-                    <FormMessage />
+                    <FormMessage style={{ color: "red" }} />
                   </FormItem>
                 )}
               />
@@ -151,11 +165,11 @@ const Register = () => {
                     <FormDescription>
                       This is your public display name.
                     </FormDescription>
-                    <FormMessage />
+                    <FormMessage style={{ color: "red" }} />
                   </FormItem>
                 )}
               />
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="currentLocation"
                 render={({ field }) => (
@@ -178,7 +192,7 @@ const Register = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
 
               <Button
                 type="submit"
@@ -197,3 +211,8 @@ const Register = () => {
 };
 
 export default Register;
+
+// Zar Ni Lwin
+// 0943003686
+// 2.8.2000
+// 9/WaTaNa(n)222632

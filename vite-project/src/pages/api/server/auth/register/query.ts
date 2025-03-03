@@ -1,13 +1,12 @@
-import { useToast } from "@/components/ui/use-toast";
 import { RegisterPayload } from "@/pages/api/server/auth/register/type";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
-const URL = `http://localhost:3000`;
+const URL = `http://localhost:8000`;
 
 export const registerFn = async (payload: RegisterPayload) => {
-  const response = await axios.post(`${URL}/websiteUser/register`, payload);
+  const response = await axios.post(`${URL}/api/signup`, payload);
   return response.data;
 };
 
@@ -16,16 +15,15 @@ export const useAllRegister = () => {
   return useMutation({
     // mutationKey: ["create-register"],
     mutationFn: (payload: RegisterPayload) => registerFn(payload),
-    onSuccess: (data, { name, phone, email, currentLocation }) => {
-      if (data.meta.success) {
+    onSuccess: (data, { name, email, password }) => {
+      if (data?.meta?.success) {
         console.log(data);
         const status = data.body.status;
         navigate("/login", {
           state: {
             name,
-            phone,
             email,
-            currentLocation,
+            password,
             status,
             code: data.body.code,
           },
@@ -33,6 +31,7 @@ export const useAllRegister = () => {
       }
     },
 
+   
     onError: (error) => {
       const errMsg =
         error instanceof AxiosError
@@ -42,4 +41,5 @@ export const useAllRegister = () => {
       console.log(errMsg.data?.httpStatus);
     },
   });
+
 };

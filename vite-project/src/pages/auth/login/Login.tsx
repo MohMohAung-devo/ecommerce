@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import classes from "./Login.module.css";
 import { useLogin } from "@/pages/api/server/auth/login/query";
+import { AuthContext } from "@/pages/api/server/auth/auth";
 import {
   Form,
   FormControl,
@@ -14,6 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 const formSchema = z.object({
   email: z.string().min(4, {
     message: "Email must be required",
@@ -25,6 +28,8 @@ const formSchema = z.object({
 
 const Login = () => {
   const login = useLogin();
+  const navigate = useNavigate();
+  //const autheContext = useContext(AuthContext);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,8 +39,15 @@ const Login = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    login.mutate(values);
-    // console.log(values);
+    login.mutate(values, {
+      onSuccess: () => {
+        navigate("/");
+      },
+    });
+    console.log(values);
+    // if (login.onSuccess) {
+    //   navigate("/");
+    // }
   }
   return (
     <div className={classes.Container}>

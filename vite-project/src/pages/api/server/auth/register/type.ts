@@ -8,9 +8,9 @@ export interface Body {
 }
 export interface RegisterPayload {
   name: string;
-  phone: string;
+  // phone: string;
   email: string;
-  currentLocation: string;
+  // currentLocation: string;
   password: string;
 }
 

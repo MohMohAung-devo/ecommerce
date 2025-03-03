@@ -17,12 +17,11 @@
   justify-items: center;
   align-items: center;
   align-content: center;
-  
 }
 
 .form {
-  width: 40%;
-  height: 80vh;
+  width: 500px;
+  height: 55vh;
   margin: auto;
   display: flex;
   flex-direction: column;

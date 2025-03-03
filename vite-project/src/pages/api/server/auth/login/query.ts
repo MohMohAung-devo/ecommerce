@@ -5,14 +5,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/pages/hook/useAuth";
 import { useToast } from "@/components/ui/use-toast";
 
-const URL = `http://localhost:3000`;
+const URL = `http://localhost:8000`;
 
 interface LoginPayload {
   email: string;
   password: string;
 }
 export const loginFn = async (payload: LoginPayload) => {
-  const response = await axios.post(`${URL}/websiteUser/login`, payload);
+  const response = await axios.post(`${URL}/api/signin`, payload);
   return response.data;
 };
 
@@ -36,9 +36,10 @@ export const useLogin = () => {
           title: "Login Successfull",
           description: "Welcome back.",
         });
-        navigate(from, { replace: true });
+        navigate("/", { replace: true });
       }
     },
+
     onError: (error) => {
       // console.error("error", error);
       // const errMsg =
