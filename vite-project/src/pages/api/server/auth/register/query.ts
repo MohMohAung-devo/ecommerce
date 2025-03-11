@@ -31,15 +31,13 @@ export const useAllRegister = () => {
       }
     },
 
-   
     onError: (error) => {
       const errMsg =
         error instanceof AxiosError
           ? error.response?.data.messageEn
           : "Somethign went wrong";
 
-      console.log(errMsg.data?.httpStatus);
+      console.log("Error Message", errMsg);
     },
   });
-
 };

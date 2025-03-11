@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import classes from "./Login.module.css";
 import { useLogin } from "@/pages/api/server/auth/login/query";
-import { AuthContext } from "@/pages/api/server/auth/auth";
 import {
   Form,
   FormControl,
@@ -15,7 +14,6 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 const formSchema = z.object({
   email: z.string().min(4, {

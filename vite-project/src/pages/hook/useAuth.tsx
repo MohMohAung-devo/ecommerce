@@ -6,6 +6,7 @@ interface User {
   password: string;
   status: boolean;
   accessToken: string;
+  refreshToken: string;
 }
 export const useAuth = () => {
   const [isAuthenicated, setIsAuthenicated] = useState(false);
@@ -13,13 +14,21 @@ export const useAuth = () => {
 
   useEffect(() => {
     const storeUser = Cookies.get("userData");
+    const accessToken = Cookies.get("accessToken");
+    const refreshToken = Cookies.get("refreshToken");
     if (storeUser) {
       try {
         const parsedUser = JSON.parse(storeUser) as Record<string, User>;
         setUser(parsedUser);
-        setIsAuthenicated(
-          !!Object.values(parsedUser).some((user) => user.accessToken)
-        );
+        // setIsAuthenicated(
+        //   Object.values(parsedUser).some((user) => user.accessToken)
+        // );
+
+        if (accessToken) {
+          setIsAuthenicated(true);
+        } else if (refreshToken) {
+          refreshToken(refreshToken);
+        }
       } catch (error) {
         console.error("Error parsing stored user data:", error);
       }
@@ -29,15 +38,23 @@ export const useAuth = () => {
   const login = (userData: User) => {
     // setUser(userData);
     // setIsAuthenicated(true);
-    setUser((prvUser) => ({
-      ...prvUser,
-      [userData.email]: userData,
-    }));
+    setUser((prevUser) => {
+      const newUser = { ...prevUser, [userData.email]: userData };
+      Cookies.set("userData", JSON.stringify(newUser), {
+        expires: 1,
+        secure: true,
+      });
+      return newUser;
+    });
 
     setIsAuthenicated(true);
 
-    Cookies.set("userData", JSON.stringify(user), {
+    Cookies.set("accessToken", userData.accessToken, {
       expires: 1,
+      secure: true,
+    });
+    Cookies.set("refreshToken", userData.refreshToken, {
+      expires: 7,
       secure: true,
     });
   };
