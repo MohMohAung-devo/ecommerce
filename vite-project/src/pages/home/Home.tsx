@@ -19,16 +19,7 @@ import { ProductAll } from "@/pages/api/server/home/type";
 export const Home = () => {
   const { data, isError } = useAllProduct();
   const navigate = useNavigate();
-  const { isAuthenicated } = useAuth();
-
-  // if (!data) {
-  //   <div>No data.....</div>;
-  // }
-
-  // if (isError) {
-  //   <div>Loading.....</div>;
-  // }
-
+  const { isAuthenicated, user } = useAuth();
   console.log(data);
   const [next, setNext] = useState(0);
   const [count, setCount] = useState(0);

@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import classes from "./Login.module.css";
 import { useLogin } from "@/pages/api/server/auth/login/query";
+import Cookies from "js-cookie";
 import {
   Form,
   FormControl,
@@ -15,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/pages/hook/useAuth";
 const formSchema = z.object({
   email: z.string().min(4, {
     message: "Email must be required",
@@ -26,6 +28,7 @@ const formSchema = z.object({
 
 const Login = () => {
   const login = useLogin();
+  const { setIsAuthenicated, setUser } = useAuth();
   const navigate = useNavigate();
   //const autheContext = useContext(AuthContext);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -38,10 +41,20 @@ const Login = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     login.mutate(values, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        Cookies.set("token", data.accessToken, { expires: 1, secure: true });
+        // Cookies.set("refreshToken", data.refreshToken, {
+        //   expires: 7,
+        //   secure: true,
+        // });
+
+        setUser(data.user);
+        setIsAuthenicated(true);
+
         navigate("/");
       },
     });
+
     console.log(values);
     // if (login.onSuccess) {
     //   navigate("/");

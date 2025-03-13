@@ -1,19 +1,27 @@
-import React from "react";
+import React, { useEffect, useId, useState } from "react";
 import classes from "./Navbar.module.css";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import Profile from "@/pages/auth/profile/Profile";
 import { useAuth } from "@/pages/hook/useAuth";
 
 const Navbar = () => {
-  const { isAuthenicated } = useAuth();
+  const { isAuthenicated, user, logout } = useAuth();
+
+  // useEffect(() => {
+  //   if (isAuthenicated && user) {
+  //     setName(user.name);
+  //   }
+  // }, [user, isAuthenicated]);
+
+  console.log(user);
   return (
     <div className={classes.Container}>
       <div className={classes.navContainer}>
         <p>Home</p>
         {isAuthenicated ? (
           <div className={classes.item}>
-            <Profile />
+            <div>{user?.name}</div>
+            <Button onClick={logout}>Logout</Button>
           </div>
         ) : (
           <div className={classes.item}>

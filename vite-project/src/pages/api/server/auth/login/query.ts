@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/pages/hook/useAuth";
 import { useToast } from "@/components/ui/use-toast";
+import Cookies from "js-cookie";
 
 const URL = `http://localhost:8000`;
 
@@ -29,9 +30,17 @@ export const useLogin = () => {
     onSuccess: (data) => {
       if (data?.success) {
         const accessToken = data?.token;
-        login(accessToken);
+        const userId = data?.user._id;
+
+        if (!accessToken || !userId) {
+          console.error("Login response missing token or userId");
+        }
+        login(accessToken, userId);
         console.log(data);
         console.log(accessToken);
+        Cookies.set("token", accessToken, { expires: 1, secure: true });
+        Cookies.set("userId", userId, { expires: 1, secure: true });
+        login(accessToken, userId);
         toast({
           title: "Login Successfull",
           description: "Welcome back.",

@@ -8,6 +8,7 @@ import "./App.css";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CartList from "@/pages/cart-list/CartList";
+import { AuthProvider } from "@/pages/hook/useAuth";
 
 const queryClient = new QueryClient();
 const AuthRoute = () => {
@@ -32,9 +33,11 @@ const AuthRoute = () => {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <AuthRoute />
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <AuthRoute />
+        </BrowserRouter>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
