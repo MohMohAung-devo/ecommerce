@@ -42,23 +42,17 @@ const Login = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     login.mutate(values, {
       onSuccess: (data) => {
-        Cookies.set("token", data.accessToken, { expires: 1, secure: true });
-        // Cookies.set("refreshToken", data.refreshToken, {
-        //   expires: 7,
-        //   secure: true,
-        // });
-
         setUser(data.user);
         setIsAuthenicated(true);
-
+        Cookies.set("refreshToken", data.refreshToken, {
+          secure: true,
+          httpOnly: false,
+        });
         navigate("/");
+        console.log(data.token);
       },
     });
-
     console.log(values);
-    // if (login.onSuccess) {
-    //   navigate("/");
-    // }
   }
   return (
     <div className={classes.Container}>

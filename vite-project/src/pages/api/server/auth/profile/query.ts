@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-
+import { useAuth } from "@/pages/hook/useAuth";
+import Cookies from "js-cookie";
 const URL = `http://localhost:8000`;
 
-export const fetchProfile = async (userId: string, token: string) => {
-  const response = await axios.get(`${URL}/api/secret/${userId}`, {
+export const fetchProfile = async (_id: string, token: string) => {
+  const response = await axios.get(`${URL}/api/secret/${_id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -15,11 +16,10 @@ export const fetchProfile = async (userId: string, token: string) => {
 };
 
 export const useProfile = () => {
-  const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("userId");
+  const { _id, isAuthenicated } = useAuth();
   return useQuery({
-    queryKey: ["profile", userId],
-    queryFn: () => fetchProfile(userId!, token!),
-    enabled: !!token && !!userId,
+    queryKey: ["profile", _id],
+    queryFn: () => fetchProfile(_id!, Cookies.get("token")!),
+    enabled: !!isAuthenicated && !!_id,
   });
 };

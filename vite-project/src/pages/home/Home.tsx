@@ -14,13 +14,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa";
 import { FaAngleLeft } from "react-icons/fa";
 import { useAuth } from "@/pages/hook/useAuth";
-import ProductDetail from "@/pages/home/detail/ProductDetail";
-import { ProductAll } from "@/pages/api/server/home/type";
+// import ProductDetail from "@/pages/home/detail/ProductDetail";
+// import { ProductAll } from "@/pages/api/server/home/type";
 export const Home = () => {
-  const { data, isError } = useAllProduct();
+  // const { data, isError } = useAllProduct();
   const navigate = useNavigate();
   const { isAuthenicated, user } = useAuth();
-  console.log(data);
+
   const [next, setNext] = useState(0);
   const [count, setCount] = useState(0);
   const item = [Photo3, Photo4, Photo5];

@@ -3,15 +3,21 @@ import classes from "./Navbar.module.css";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/pages/hook/useAuth";
+import { useLogout } from "@/pages/api/server/auth/login/query";
 
 const Navbar = () => {
-  const { isAuthenicated, user, logout } = useAuth();
+  const { isAuthenicated, user } = useAuth();
+  const { mutate: logout } = useLogout();
 
   // useEffect(() => {
   //   if (isAuthenicated && user) {
   //     setName(user.name);
   //   }
   // }, [user, isAuthenicated]);
+
+  const handleLogout = () => {
+    logout({ id: "user-id", token: "user-token" });
+  };
 
   console.log(user);
   return (
@@ -21,7 +27,7 @@ const Navbar = () => {
         {isAuthenicated ? (
           <div className={classes.item}>
             <div>{user?.name}</div>
-            <Button onClick={logout}>Logout</Button>
+            <Button onClick={handleLogout}>Logout</Button>
           </div>
         ) : (
           <div className={classes.item}>

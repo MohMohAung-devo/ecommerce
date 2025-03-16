@@ -3,9 +3,6 @@ import classes from "./CartList.module.css";
 import Photo from "../../../public/Photo.jpg";
 import Photo1 from "../../../public/Photo1.jpg";
 import Photo2 from "../../../public/Photo2.jpg";
-// import Photo3 from "../../../public/Photo3.jpg";
-// import Photo4 from "../../../public/Photo4.jpg";
-// import Photo5 from "../../../public/Photo5.jpg";
 
 const CartList = () => {
   const dataItem = [

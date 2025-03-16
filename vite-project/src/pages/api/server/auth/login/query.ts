@@ -35,12 +35,11 @@ export const useLogin = () => {
         if (!accessToken || !userId) {
           console.error("Login response missing token or userId");
         }
-        login(accessToken, userId);
-        console.log(data);
-        console.log(accessToken);
-        Cookies.set("token", accessToken, { expires: 1, secure: true });
-        Cookies.set("userId", userId, { expires: 1, secure: true });
-        login(accessToken, userId);
+        // console.log(data);
+        // console.log(accessToken);
+        // Cookies.set("token", accessToken, { expires: 1, secure: true });
+        // Cookies.set("userId", userId, { expires: 1, secure: true });
+        // login(accessToken, userId);
         toast({
           title: "Login Successfull",
           description: "Welcome back.",
@@ -50,13 +49,6 @@ export const useLogin = () => {
     },
 
     onError: (error) => {
-      // console.error("error", error);
-      // const errMsg =
-      //   error instanceof AxiosError
-      //     ? error.response?.data.messageEn
-      //     : "Something went wrong";
-      // console.log(errMsg.data?.httpStatus);
-
       let errMsg = "Something went wrong";
       if (error instanceof AxiosError && error.response?.data.messageEn) {
         errMsg = error.response.data.messageEn;
@@ -65,5 +57,24 @@ export const useLogin = () => {
       }
       console.log(errMsg);
     },
+  });
+};
+
+interface LogoutPayLoad {
+  _id: string;
+  token: string;
+}
+const logoutFn = async (payload: LogoutPayLoad) => {
+  const response = await axios.get(
+    `${URL}/api/signout/${payload._id}`,
+    payload
+  );
+
+  return response.data;
+};
+
+export const useLogout = () => {
+  return useMutation({
+    mutationFn: logoutFn,
   });
 };
